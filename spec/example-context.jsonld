@@ -1,0 +1,29 @@
+{
+  "@context": {
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "wd": "http://www.wikidata.org/entity/",
+    "@base": "http://example.org/",
+    "uri": "@id",
+    "type": "@type",
+    "Person": "foaf:Person",
+    "born": {
+      "@id": "schema:birthDate",
+      "@type": "xsd:date"
+    },
+    "friends": {
+      "@id": "foaf:knows",
+      "@type": "@id"
+    },
+    "interest": "http://xmlns.com/foaf/0.1/topic_interest",
+    "subject_of": {
+      "@reverse": "dcterms:subject",
+      "@type": "@id"
+    },
+    "creator": "dcterms:creator",
+    "title": "dcterms:title",
+    "name": "foaf:name"
+  }
+}
