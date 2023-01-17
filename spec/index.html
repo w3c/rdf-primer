@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>RDF 1.2 Primer</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove"></script>
+  <script src="./common/local-biblio.js" class="remove"></script>
+  <script src="./common/fixup.js" class="remove"></script>
+  <script class='remove'>
+    var respecConfig = {
+      localBiblio:          localBibliography,
+      specStatus:           "DNOTE",
+      edDraftURI:           "https://w3c.github.io/rdf-primer/spec/",
+      noRecTrack:           true,
+      shortName:            "rdf12-primer",
+      copyrightStart:       "2003",
+
+      previousPublishDate:  "2014-06-24",
+      previousMaturity:     "WG-NOTE",
+      prevRecShortname:     "rdf11-primer",
+
+      editors:  [
+          { name: "Guus Schreiber", url: "http://www.cs.vu.nl/~guus/",
+            company: "VU University Amsterdam", companyURL: "http://www.vu.nl/"
+          },
+          { name: "Yves Raimond",  url: "http://raimond.me.uk/",
+            company: "BBC", companyURL: "http://www.bbc.co.uk"
+
+          },
+      ],
+
+      formerEditors: [
+        { name: "Frank Manola" },
+        { name: "Eric Miller" },
+        { name: "Brian McBride" }
+      ],
+
+      xref: [ "RDF11-CONCEPTS", "RDF11-SCHEMA" ], // Fixme: change to RDF12-CONCEPTS and RDF12-SCHEMA
+      github: "https://github.com/w3c/rdf-primer/",
+      group:           "rdf-star",
+      doJsonLd:     true,
+      wgPublicList: "public-rdf-star-wg"
+    };
+  </script>
+  <style>
+    figure { text-align: center; }
+    img.graph { width: 66%; }
+    table td, table th { border: 1px solid #ddd; padding: 0.2em 0.5em; }
+    .linenum {color: grey}
+    code {color: #ff4500;}  /* Old W3C Style */
+  </style>
+</head>
+
+<body>
+
+<section id="abstract">
+  <p>This primer is designed to provide the reader with the basic
+  knowledge required to effectively use RDF. It introduces the basic
+  concepts of RDF and shows concrete examples of the use of RDF.
+  Secs. 3-5 can be used as a minimalist introduction into the key
+  elements of RDF. Changes between RDF 1.1
+  and RDF 1.2 are summarized in a separate document: [[[RDF12-NEW]]] [[RDF12-NEW]].</p>
+</section>
+
+<section id="sotd">
+  <p>This document is part of the RDF 1.1 document suite. It is an
+  informative note on the key concepts of RDF. For a normative
+  specification of RDF 1.1 the reader is referred to the RDF
+  1.1. Concepts and Abstract Syntax document
+  [[RDF12-CONCEPTS]]. This document contains some minor editorial
+  <a href="#section-Changes">fixes</a> of the Februay 2014 version.</p>
+
+  <section id="related" data-include="./common/related.html"></section>
+</section>
+
+<section id="section-Introduction">
+  <h2>Introduction</h2>
+
+  <p>The Resource Description Framework (RDF) is a framework for
+  expressing information about
+  <a data-cite="RDF12-CONCEPTS#resources-and-statements">
+  resources</a>.
+  Resources
+  can be anything, including documents, people, physical objects, and abstract
+  concepts.</p>
+
+  <p>RDF is intended for situations in which information on the Web needs to
+  be processed by applications, rather than being only displayed to
+  people. RDF provides a common framework for expressing this
+  information so it can be exchanged between applications without
+  loss of meaning. Since it is a common framework, application
+  designers can leverage the availability of common RDF parsers and
+  processing tools. The ability to exchange information between
+  different applications means that the information may be made
+  available to applications other than those for which it was
+  originally created. </p>
+
+  <p>In particular RDF can be used to publish and interlink data on the Web.
+  For example, retrieving <code>http://www.example.org/bob#me</code>
+  could provide data about Bob, including the fact that he
+  knows Alice, as identified by her IRI (an IRI is an "International
+  Resource Identifier"; see <a href="#section-IRI">Sec.&nbsp;3.2</a> for details).
+  Retrieving Alice's IRI could then provide more data about her, including links
+  to other datasets for her friends, interests, etc. A person or
+  an automated process can then follow such links and aggregate data about these
+  various things. Such uses of RDF are often
+  qualified as Linked Data [[LINKED-DATA]]. </p>
+
+  <p>This document is not normative and does not give a complete
+  account of RDF 1.1. Normative
+  specifications of RDF can be found in the following documents: </p>
+  <ul>
+    <li>A document describing the basic concepts underlying RDF, as
+    well as abstract syntax ("RDF Concepts and Abstract Syntax")
+    [[RDF12-CONCEPTS]]</li>
+    <li>A document describing the formal model-theoretic semantics
+    of RDF ("RDF Semantics") [[RDF12-SEMANTICS]]</li>
+    <li>Specifications of serialization formats for RDF:
+      <ul>
+        <li>Turtle [[RDF12-TURTLE]] and TriG [[RDF12-TRIG]]</li>
+        <li>JSON-LD [[JSON-LD11]] (JSON based)</li>
+        <li>RDFa [[RDFA-PRIMER]] (for HTML embedding)</li>
+        <li>N-Triples [[RDF12-N-TRIPLES]] and N-Quads [[RDF12-N-QUADS]]
+              (line-based exchange formats)</li>
+        <li>RDF/XML [[RDF12-XML]] (the original 2004 syntax, updated
+              for RDF 1.1)</li>
+      </ul>
+    </li>
+    <li>A document describing RDF Schema [[RDF12-SCHEMA]], which
+      provides a data-modeling vocabulary for RDF data. </li>
+  </ul>
+
+</section>
+
+<section id="section-use-cases">
+  <h2>Why Use RDF?</h2>
+
+  <p>The following illustrates various different uses of RDF, aimed
+  at different communities of practice.</p>
+
+  <ul>
+    <li>Adding machine-readable information to Web pages using, for example,
+      the popular <a href="https://schema.org">schema.org</a>
+      vocabulary, enabling them to be displayed
+      in an enhanced format on search engines or to be processed automatically
+      by third-party applications.</li>
+    <li>Enriching a dataset by linking it to third-party
+      datasets. For example, a dataset about
+      paintings could be enriched by linking them to the corresponding
+      artists in <a href="https://www.wikidata.org">Wikidata</a>,
+      therefore giving access to a wide range of information about
+      them and related resources.</li>
+    <li>Interlinking API feeds, making sure that clients can easily
+      discover how to access more information.</li>
+      <li>Using the datasets currently published as Linked Data
+      [[LINKED-DATA]], for example
+      building aggregations of data around specific topics.</li>
+    <li>Building distributed social networks by interlinking RDF
+      descriptions of people
+      across multiple Web sites.</li>
+      <li>Providing a standards-compliant way for exchanging data
+      between databases.</li>
+    <li>Interlinking various datasets within an organisation,
+      enabling cross-dataset queries to
+      be performed using SPARQL [[SPARQL12-CONCEPTS]].</li>
+  </ul>
+</section>
+
+<section id="section-data-model">
+  <h2>RDF Data Model</h2>
+
+  <section id="section-triple">
+    <h3>Triples</h3>
+
+    <p>RDF allows us to make statements about resources.
+    The format of these statements is simple. A statement always
+    has the following structure:<p>
+
+   <pre>
+      &lt;subject&gt; &lt;predicate&gt; &lt;object&gt;
+    </pre>
+
+    <!--
+    <p>The <strong>subject</strong> represents the resource we like to
+    make a statement about. The <strong>predicate</strong> represents
+    a property of the subject. The
+    <strong>object</strong> represents a value of the property
+    for this subject. Because RDF statements consist of three elements they are called
+    <strong>triples</strong>.</p>
+    -->
+
+    <p>An RDF statement expresses a relationship between two resources.
+    The <strong>subject</strong> and the <strong>object</strong>
+    represent the two resources being
+    related; the <strong>predicate</strong> represents the nature of their
+    relationship. The relationship is phrased in  a directional way
+    (from subject to object) and is called in RDF a
+    <strong>property</strong>.  Because RDF statements consist of
+    three elements they are called <strong>triples</strong>.
+    </p>
+
+    <p>Here are examples of RDF triples (informally expressed in pseudocode):</p>
+
+    <pre class="example" title="Sample triples (informal)" id="example1">
+      &lt;Bob&gt; &lt;is a&gt; &lt;person&gt;.
+      &lt;Bob&gt; &lt;is a friend of&gt; &lt;Alice&gt;.
+      &lt;Bob&gt; &lt;is born on&gt; &lt;the 4th of July 1990&gt;.
+      &lt;Bob&gt; &lt;is interested in&gt; &lt;the Mona Lisa&gt;.
+      &lt;the Mona Lisa&gt; &lt;was created by&gt; &lt;Leonardo da Vinci&gt;.
+      &lt;the video 'La Joconde à Washington'&gt; &lt;is about&gt; &lt;the Mona Lisa&gt;
+    </pre>
+
+    <p>The same resource is often referenced in multiple triples. In the example above,
+    Bob is the subject of four triples, and the Mona Lisa is the subject of
+    one and the object of two triples. This ability to have the same resource be
+    in the subject position of one triple and the object position of another
+    makes it possible to find connections between triples, which is an
+    important part of RDF's power.</p>
+
+    <p>We can visualize triples as a connected
+    <strong>graph</strong>. Graphs consists
+    of nodes and arcs. The subjects and
+    objects of the triples make up the nodes in the graph; the
+    predicates form the arcs. <a href="#fig1">Fig.&nbsp;1</a>
+    shows the graph resulting from the sample triples.</p>
+
+    <figure id="fig1">
+      <img class="graph" src="example-graph.jpg"
+                alt="Informal graphs of the sample triples">
+      <figcaption>Informal graph of the sample triples</figcaption>
+    </figure>
+
+   <p>Once you have a graph like this you can use SPARQL [[SPARQL12-CONCEPTS]] to
+    query for e.g. people interested in paintings by Leonardo da
+    Vinci.</p>
+
+    <p>The RDF Data Model is described in this section
+    in the form of an "abstract syntax", i.e. a data model that is independent of a
+    particular concrete syntax (the syntax used to represent triples stored in
+    text files).  Different concrete syntaxes may
+    produce exactly the same graph from the perspective of the
+    abstract syntax. The semantics of RDF graphs [[RDF12-SEMANTICS]] are defined in
+    terms of this abstract syntax. Concrete RDF syntax is introduced
+    later in <a href="#section-graph-syntax">Sec.&nbsp;5</a>.</p>
+
+    <p>In the next three subsections we discuss the three types of RDF data
+    that occur in triples: IRIs, literals and blank nodes. </p>
+
+  </section>
+
+  <section id="section-IRI">
+    <h3>IRIs</h3>
+
+    <p>The abbreviation IRI is short for "International Resource
+    Identifier". An <a data-cite="RDF12-CONCEPTS#iri">IRI</a>
+    identifies a resource. The URLs (Uniform Resource Locators) that
+    people use as Web addresses are one form of IRI. Other forms of IRI
+    provide an identifier for a resource without implying its location
+    or how to access it. The notion of IRI is a
+    generalization of URI (Uniform Resource Identifier), allowing
+    non-ASCII characters to be used in the IRI character string. IRIs are specified
+    in RFC 3987 [[RFC3987]].
+
+    <p>IRIs can appear in <strong>all three positions</strong> of a triple. </p>
+
+    <p>As mentioned, IRIs are used to identify resources such as documents,
+    people, physical objects, and abstract concepts.
+    For example, the IRI for Leonardo da Vinci in <a
+    href="https://dbpedia.org">DBpedia</a> is:</p>
+
+    <pre class="example" title="IRI for Leonardo da Vinci">
+      <a href="http://dbpedia.org/resource/Leonardo_da_Vinci">http://dbpedia.org/resource/Leonardo_da_Vinci</a>
+    </pre>
+
+    <p>The IRI for an <a href="https://www.ina.fr">INA</a> video about the Mona Lisa entitled 'La Joconde à Washington' in <a href="https://www.europeana.eu">Europeana</a> is:</p>
+
+    <pre class="example" title="IRI for video about the Mona Lisa">
+      <a href="http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619">http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619</a>
+    </pre>
+
+    <p>IRIs are global identifiers, so other people can re-use this
+    IRI to identify the same thing. For example, the following IRI is
+    used by many people as an RDF property to state an acquaintance
+    relationship between people:</p>
+
+    <pre class="example" title="IRI for foaf:knows">
+      <a href="http://xmlns.com/foaf/0.1/knows">http://xmlns.com/foaf/0.1/knows</a>
+    </pre>
+
+    <p>RDF is agnostic about what the IRI represents. However,
+    IRIs may be given meaning by particular vocabularies or
+    conventions. For example,
+    <a href="https://wiki.dbpedia.org/Datasets#h338-3">DBpedia</a> uses IRIs of the form
+    <code>http://dbpedia.org/resource/Name</code> to denote the thing
+    described by the corresponding Wikipedia article.</p>
+
+  </section>
+
+  <section id="section-literal">
+
+    <h3>Literals</h3>
+
+    <p><a data-cite="RDF12-CONCEPTS#literal">Literals</a>
+    are basic values that are not IRIs. Examples of literals include
+    strings such as "La Joconde", dates such as "the 4th of July, 1990"
+    and numbers such as "3.14159".
+    Literals are associated with a <a data-cite="RDF12-CONCEPTS#datatype">datatype</a>
+    enabling such values to be parsed and interpreted correctly.
+    String literals can optionally be associated with a <a data-cite="RDF12-CONCEPTS#language-tag">language tag</a>.
+    For example, "Léonard de Vinci" could
+    be associated with the "fr" language tag and "李奥纳多·达·文西"
+    with the "zh" language tag.</p>
+
+    <!--
+    <p class="note">The 2004 version of RDF contained the notion of a
+    "plain literal" with no datatype. This feature has been removed, as the
+    distinction between "plain" literals and literals with datatype
+    <code>string</code> was confusing. RDF languages such as Turtle allow
+    writing of literals without an explicit datatype and treat this
+    as syntactic sugar for a <code>string</code>
+    datatype. The special datatype
+    <code>rdf:langString</code> is assigned to language-tagged
+    literals.</p>
+    -->
+
+    <p>Literals may only appear in the <strong>object position</strong> of a triple.</p>
+
+    <p>The RDF Concepts document provides a (non-exhaustive)
+    <a data-cite="RDF12-CONCEPTS#section-Datatypes">list of datatypes</a>.
+    This includes many datatypes defined by XML Schema, such as string, boolean, integer, decimal and date. </p>
+  </section>
+
+  <section id="section-blank-node">
+    <h3>Blank nodes</h3>
+
+    <p>IRIs and literals together provide the basic material for
+    writing down RDF statements. In addition, it is sometimes handy
+    to be able to talk about resources without bothering to use a global
+    identifier.  For example, we might want to state that the Mona
+    Lisa painting has in its background an unidentified tree which
+    we know to be a cypress tree. A resource without a global identifier, such as the
+    painting's cypress tree, can be represented in RDF by a <a data-cite="RDF12-CONCEPTS#blank-node">blank node</a>.
+    Blank nodes are like simple variables in algebra;
+    they represent some thing without saying what their value is.
+    </p>
+
+    <p>Blank nodes can appear in the <strong>subject and object
+    position</strong> of a triple. They can be used
+    to denote resources without explicitly naming them with an
+    IRI.</p>
+
+    <figure id="fig2">
+      <img class="graph" src="example-blank-node.jpg"
+                alt="Blank node example: cypress tree">
+      <figcaption>Informal blank node example: the background of the Mona Lisa depicts
+        an unnamed resource that belongs to the class of cypress trees.</figcaption>
+    </figure>
+  </section>
+
+  <section id="section-multiple-graphs">
+    <h3>Multiple graphs</h3>
+
+    <p>RDF provides a mechanism to group RDF statements in multiple
+    graphs and associate such graphs with an IRI . Multiple graphs are a recent extension of the RDF
+    data model. In practice, RDF tool builders and data managers
+    needed a mechanism to talk about subsets of a collection of
+    triples. Multiple graphs were first introduced in the RDF query
+    language SPARQL. The RDF data model was therefore extended with a notion of
+    multiple graphs that is closely aligned with SPARQL.</p>
+
+    <p>Multiple graphs in
+    an RDF document constitute an <a data-cite="RDF12-CONCEPTS#rdf-dataset">RDF dataset</a>.
+    An RDF dataset may have multiple named graphs and
+    at most one unnamed ("default") graph. </p>
+
+    <p>For example, the
+    statements in <a href="#example1">Example&nbsp;1</a>
+    could be grouped in two named
+    graphs. A first graph could be provided by a social networking
+    site and identified by <code>http://example.org/bob</code>:</p>
+
+    <pre class="example" title="First graph in the sample dataset">
+      &lt;Bob&gt; &lt;is a&gt; &lt;person&gt;.
+      &lt;Bob&gt; &lt;is a friend of&gt; &lt;Alice&gt;.
+      &lt;Bob&gt; &lt;is born on&gt; &lt;the 4th of July 1990&gt;.
+      &lt;Bob&gt; &lt;is interested in&gt; &lt;the Mona Lisa&gt;.
+    </pre>
+
+    <p>The IRI associated with the graph is
+    called the <a data-cite="RDF12-CONCEPTS#graph-name">graph name</a>.</p>
+
+    <p>A second graph could be provided by <a
+    href="https://www.wikidata.org/">Wikidata</a>
+    and identified by
+    <code>https://www.wikidata.org/wiki/Special:EntityData/Q12418</code>:</p>
+
+    <pre class="example" title="Second graph in the sample dataset">
+      &lt;Leonardo da Vinci&gt; &lt;is the creator of&gt; &lt;the Mona Lisa&gt;.
+      &lt;The video 'La Joconde à Washington'&gt; &lt;is about&gt; &lt;the Mona Lisa&gt;
+    </pre>
+
+    <p>Below is an example of an unnamed graph. It contains two triples that
+    have the graph name <code>&lt;http://example.org/bob&gt;</code>
+    as subject. The triples associate publisher and license information with
+    this graph IRI: </p>
+
+    <pre class="example" title="Unnamed graph in the sample dataset">
+      &lt;http://example.org/bob&gt; &lt;is published by&gt; &lt;http://example.org&gt;.
+      &lt;http://example.org/bob&gt; &lt;has license&gt; &lt;http://creativecommons.org/licenses/by/3.0/&gt;.
+    </pre>
+
+    <p> In this example dataset we assume graph
+    names represent the source of the RDF data held within the
+    corresponding graphs, i.e. by retrieving
+    <code>&lt;http://example.org/bob&gt;</code> we would get access to the four triples
+    in that graph.</p>
+
+    <p class="note">RDF provides no standard way to convey this semantic
+    assumption (i.e., that graph names represent the source of the
+    RDF data) to other readers of the dataset. Those readers will
+    need to rely on out-of-band knowledge, such as established
+    community practice, to interpret the dataset
+    in the intended way. Possible semantics of datasets are described in a separate note
+    [[RDF11-DATASETS]]. </p>
+
+    <figure id="fig3">
+      <img class="graph" src="example-multiple-graphs.jpg"
+                alt="Informal graph of the sample dataset">
+      <figcaption>Informal graph of the sample dataset</figcaption>
+    </figure>
+
+    <p><a href="#fig3">Fig.&nbsp;3</a> depicts the sample dataset.
+    <a href="#section-trig">Sec.&nbsp;5.1.3</a> provides an example
+    of concrete syntax for this dataset.</p>
+    </section>
+</section>
+
+<section id="section-vocabulary">
+  <h2>RDF Vocabularies</h2>
+
+  <p>The RDF data model provides a way to make statements about
+  resources. As we mentioned, this data model does not make any
+  assumptions about what resource IRIs stand for. In practice, RDF
+  is typically used in combination with vocabularies or other
+  conventions that provide semantic information about these
+  resources. </p>
+
+  <p>To support the definition of vocabularies RDF provides
+  the RDF Schema language
+  [[RDF12-SCHEMA]]. This language allows one to define semantic
+  characteristics of
+  RDF data. For example, one can state that the IRI
+  <code>http://www.example.org/friendOf</code> can be used as a property and that the
+  subjects and objects of <code>http://www.example.org/friendOf</code> triples must be
+  resources of class <code>http://www.example.org/Person</code>. <p>
+
+  <p>RDF Schema uses the notion of <strong>class</strong> to
+  specify categories that can be used to classify resources. The
+  relation between an instance and its class is stated through the
+  <strong>type</strong> property. With RDF Schema one can create hierarchies
+  of classes and sub-classes and of
+  properties and sub-properties. Type restrictions on the subjects
+  and objects of particular triples can be defined through
+  <strong>domain</strong> and <strong>range</strong>
+  restrictions. An example of a domain restriction was given above:
+  subjects of "friendOf"  triples should be of class "Person".</p>
+
+  <p>The main modeling
+  constructs provided by RDF Schema are summarized in the table below:</p>
+
+  <table id="table-rdf-schema" class="numbered">
+    <caption>RDF Schema Constructs</caption>
+    <tbody>
+      <tr>
+        <th>Construct</th>
+        <th>Syntactic form</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><a data-cite="RDF12-SCHEMA#ch_classes">Class</a> (a class)</td>
+        <td><strong>C</strong> <code>rdf:type rdfs:Class</code></td>
+        <td><strong>C</strong> (a resource) is an RDF class</td>
+      </tr>
+      <tr>
+        <td><a data-cite="RDF12-SCHEMA#ch_property">Property</a> (a class)</td>
+        <td><strong>P</strong> <code>rdf:type rdf:Property</code></td>
+        <td><strong>P</strong> (a resource) is an RDF property</td>
+      </tr>
+      <tr>
+        <td><a data-cite="RDF12-SCHEMA#ch_type">type</a> (a property)</td>
+        <td><strong>I</strong> <code>rdf:type</code> <strong>C</strong></td>
+        <td><strong>I</strong> (a resource) is an instance of <strong>C</strong> (a class)</td>
+      </tr>
+      <tr>
+        <td><a data-cite="RDF12-SCHEMA#ch_subclassof">subClassOf</a> (a property)</td>
+        <td><strong>C1</strong> <code>rdfs:subClassOf</code> <strong>C2</strong></td>
+        <td><strong>C1</strong> (a class) is a subclass of <strong>C2</strong> (a class)</td>
+      </tr>
+      <tr>
+        <td><a data-cite="RDF12-SCHEMA#ch_subpropertyof">subPropertyOf</a> (a property)</td>
+        <td><strong>P1</strong> <code>rdfs:subPropertyOf</code> <strong>P2</strong></td>
+        <td><strong>P1</strong> (a property) is a sub-property of <strong>P2</strong> (a property)</td>
+     </tr>
+      <tr>
+        <td><a data-cite="RDF12-SCHEMA#ch_domain">domain</a> (a property)</td>
+        <td><strong>P</strong> <code>rdfs:domain</code> <strong>C</strong></td>
+        <td>domain of <strong>P</strong> (a property) is <strong>C</strong> (a class)</td>
+      </tr>
+      <tr>
+        <td><a data-cite="RDF12-SCHEMA#ch_range">range</a> (a property)</td>
+        <td><strong>P</strong> <code>rdfs:range</code> <strong>C</strong></td>
+        <td>range of <strong>P</strong> (a property) is <strong>C</strong> (a class)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="note">The syntactic form (second column) is in a prefix
+  notation which is discussed in more detail in
+  <a href="#section-graph-syntax">Sec.&nbsp;5</a>.
+  The fact that the constructs have two different prefixes
+  (<code>rdf:</code> and <code>rdfs:</code>) is a somewhat annoying
+  historical artefact, which is preserved for backward
+  compatibility.</p>
+
+  <p>With the help of RDF Schema one can build a model of RDF data. A
+  simple informal example:</p>
+
+  <pre class="example" title="RDF Schema triples (informal)" id="rdfs-example">
+    &lt;Person&gt; &lt;<strong>type</strong>&gt; &lt;Class&gt;
+    &lt;is a friend of&gt; &lt;<strong>type</strong>&gt; &lt;Property&gt;
+    &lt;is a friend of&gt; &lt;<strong>domain</strong>&gt; &lt;Person&gt;
+    &lt;is a friend of&gt; &lt;<strong>range</strong>&gt; &lt;Person&gt;
+    &lt;is a good friend of&gt; &lt;<strong>subPropertyOf</strong>&gt; &lt;is a friend of&gt;
+  </pre>
+
+  <p>Note that, while <code>&lt;is a friend of&gt;</code> is a
+  property typically used as the predicate of a triple (as it was in
+  <a href="#example1">Example&nbsp;1</a>), properties like this are themselves resources that can be
+  described by triples or provide values in the descriptions of other
+  resources. In this example, <code>&lt;is a friend of&gt;</code> is the subject of triples
+  that assign type, domain, and range values to it, and it is the object of
+  a triple that describes something about the <code>&lt;is a good friend of&gt;</code>
+  property.
+
+  <p>One of the first RDF vocabularies used worldwide was the
+  <a href="https://www.foaf-project.org/">"Friend of a Friend"</a> (FOAF)
+  vocabulary for describing social networks. Other examples of RDF
+  vocabularies are:</p>
+
+  <dl>
+    <dt><a href="https://dublincore.org/documents/dcmi-terms/">Dublin Core</a></dt>
+    <dd>The Dublin Core Metadata Initiative maintains a metadata element
+    set for describing a wide range of resources. The vocabulary provides
+    properties such as "creator", "publisher" and "title".</dd>
+
+    <dt><a href="https://schema.org/">schema.org</a>
+    <dd>Schema.org is a vocabulary developed by a group of major search
+    providers. The idea is that webmasters can use these terms to mark-up
+    Web pages, so that search engines understand what the pages are
+    about.</dd>
+
+    <dt><a href="https://www.w3.org/2004/02/skos/">SKOS</a></dt>
+    <dd>SKOS is a vocabulary for publishing classification schemes
+    such as terminologies and thesauri on the Web. SKOS is since 2009 a W3C
+    recommendation and is widely used in the library world. The Library of
+    Congress published its Subject Headings as a <a
+    href="https://id.loc.gov/authorities/subjects.html">SKOS
+    vocabulary</a>.</dd>
+  </dl>
+
+  <p>Vocabularies get their value from reuse: the more vocabulary IRIs
+  are reused by others, the more valuable it becomes to use the
+  IRIs (the so-called network effect). This means you should prefer
+  re-using someone else's IRI instead of inventing a new one. </p>
+
+  <p>For a formal specification of the semantics of the RDF Schema
+  constructs the reader is referred to
+  the RDF Semantics document [[RDF12-SEMANTICS]]. Users interested in more comprehensive
+  semantic modeling of RDF data might consider using OWL
+  [[OWL2-OVERVIEW]]. OWL is an RDF vocabulary, so it can be
+  used in combination with RDF Schema.</p>
+
+</section>
+
+<section id="section-graph-syntax">
+  <h2>Writing RDF graphs</h2>
+
+  <p>A number of different serialization formats exist for writing down RDF
+    graphs. However, different ways of writing down the same graph lead
+    to exactly the same triples, and are thus logically equivalent. </p>
+
+  <p>In this section we briefly introduce, through annotated examples, the following formats:</p>
+
+  <ol>
+    <li>Turtle family of RDF languages
+      (<a href="#section-n-triples">N-Triples</a>,
+       <a href="#section-turtle">Turtle</a>,
+       <a href="#section-trig">TriG</a> and
+       <a href="#section-n-quads">N-Quads</a>);</li>
+    <li><a href="#section-json-ld">JSON-LD</a> (JSON-based RDF syntax);</li>
+    <li><a href="#section-rdfa">RDFa</a> (for HTML and XML embedding);</li>
+    <li><a href="#section-rdfxml">RDF/XML</a> (XML syntax for RDF). </li>
+  </ol>
+
+  <p class="note">
+    Reading tip: Sec. 5.1 (Turtle <em>et al.</em>) discusses all
+    basic concepts for serializing RDF. We suggest you
+    read the sections on JSON-LD, RDFa and RDF/XML only if you are
+    interested in that particular usage of RDF. </p>
+
+  <section id="section-turtle-family">
+    <h3>Turtle family of RDF languages</h3>
+
+    <p>In this subsection we introduce four RDF languages
+    which are closely related. We start with N-Triples, as it provides
+    basic syntax for writing down RDF triples. The Turtle syntax
+    extends this basic syntax with various forms of syntactic sugar to improve
+    readability. Subsequently we discuss TriG and N-Quads, which are
+    extensions respectively of Turtle and
+    N-Triples to encode multiple graphs. Together, these four are
+    referred to as the "Turtle family of RDF languages".</p>
+
+    <section id="section-n-triples">
+      <h4>N-Triples</h4>
+
+      <p>N-Triples [[RDF12-N-TRIPLES]]  provides a simple line-based, plain-text way for serializing RDF
+      graphs. The informal graph in <a
+      href="#fig1">Fig.&nbsp;1</a> can be represented in N-Triples in the
+      following way:</p>
+
+      <pre class="example" title="N-Triples" id="n-triples-example">
+        <span class="linenum">01</span>    &lt;http://example.org/bob#me&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Person&gt; .
+        <span class="linenum">02</span>    &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .
+        <span class="linenum">03</span>    &lt;http://example.org/bob#me&gt; &lt;http://schema.org/birthDate&gt; "1990-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; .
+        <span class="linenum">04</span>    &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/topic_interest&gt; &lt;http://www.wikidata.org/entity/Q12418&gt; .
+        <span class="linenum">05</span>    &lt;http://www.wikidata.org/entity/Q12418&gt; &lt;http://purl.org/dc/terms/title&gt; "Mona Lisa" .
+        <span class="linenum">06</span>    &lt;http://www.wikidata.org/entity/Q12418&gt; &lt;http://purl.org/dc/terms/creator&gt; &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt; .
+        <span class="linenum">07</span>    &lt;http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619&gt; &lt;http://purl.org/dc/terms/subject&gt; &lt;http://www.wikidata.org/entity/Q12418&gt; .
+      </pre>
+
+      <p>Each line represents a triple. Full IRIs are enclosed in angle brackets
+      (<code>&lt;&gt;</code>). The period at the end of the line signals the
+      end of the triple. In line 3 we see an example of a literal, in this case a date. The
+      datatype is appended to the literal through a <code>^^</code> delimiter. The date
+      representation follows the conventions of the XML Schema datatype
+      <a data-cite="XMLSCHEMA11-2#date">date</a>.</p>
+
+      <p>Because string literals are so ubiquitous N-Triples allows the user to
+      omit the datatype when writing a string literal. Thus, <code>"Mona
+      Lisa"</code> in line 5 is equivalent to
+      <code>"Mona Lisa"^^xsd:string</code>.
+      In case of language-tagged strings the tag
+      appears directly after the string, separated by a <code>@</code>
+      symbol, e.g. <code>"La Joconde"@fr</code> (the French name of the Mona
+      Lisa).</p>
+
+      <p class="note">For technical reasons the datatype of language-tagged
+      strings is not <code>xsd:string</code> but
+      <code>rdf:langString</code>. The
+      datatype of language-tagged strings is never specified explicitly.</p>
+
+      <p>The figure below shows the triples resulting from the example:</p>
+
+      <figure id="fig4">
+        <img style="width: 75%" src="example-graph-iris.jpg"
+                  alt="Graph of the sample triples">
+        <figcaption>RDF graph resulting from the N-Triples example</figcaption>
+      </figure>
+
+      <p>Note that the seven lines in the N-Triples example correspond to the seven
+        arcs in the diagram above.</p>
+
+      <p>N-Triples is often used for exchanging large amounts of RDF and for
+      processing large RDF graphs with line-oriented text processing
+      tools. </p>
+
+    </section>
+
+    <section id="section-turtle">
+      <h4>Turtle</h4>
+
+      <p>Turtle [[RDF12-TURTLE]] is an <strong>extension of N-Triples</strong>.
+      In addition to the basic N-Triples syntax, Turtle
+      introduces a number of syntactic shortcuts, such as
+      support for namespace prefixes, lists and shorthands for datatyped
+      literals. Turtle provides a trade-off between ease of
+      writing, ease of parsing and readability. The graph shown in
+      <a href="#fig4">Fig.&nbsp;4</a> can be
+      represented in Turtle as follows:</p>
+
+      <pre class="example" title="Turtle" id="turtle-example">
+        <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
+        <span class="linenum">02</span>    PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+        <span class="linenum">03</span>    PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
+        <span class="linenum">04</span>    PREFIX schema: &lt;http://schema.org/&gt;
+        <span class="linenum">05</span>    PREFIX dcterms: &lt;http://purl.org/dc/terms/&gt;
+        <span class="linenum">06</span>    PREFIX wd: &lt;http://www.wikidata.org/entity/&gt;
+        <span class="linenum">07</span>
+        <span class="linenum">08</span>    &lt;bob#me&gt;
+        <span class="linenum">09</span>        a foaf:Person ;
+        <span class="linenum">10</span>        foaf:knows &lt;alice#me&gt; ;
+        <span class="linenum">11</span>        schema:birthDate "1990-07-04"^^xsd:date ;
+        <span class="linenum">12</span>        foaf:topic_interest wd:Q12418 .
+        <span class="linenum">13</span>
+        <span class="linenum">14</span>    wd:Q12418
+        <span class="linenum">15</span>        dcterms:title "Mona Lisa" ;
+        <span class="linenum">16</span>        dcterms:creator &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt; .
+        <span class="linenum">17</span>
+        <span class="linenum">18</span>    &lt;http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619&gt;
+        <span class="linenum">19</span>        dcterms:subject wd:Q12418 .
+      </pre>
+
+      <p>The Turtle example is logically equivalent to the <a href="#n-triples-example">N-Triples</a>
+      example. Lines 1-6 contain a number of directives which provide shorthands for
+      writing down IRIs. Relative IRIs (such as <code>bob#me</code> on line 8) are
+      resolved against a base IRI, specified here in line 1.
+      Lines 2-6 define IRI prefixes (such as <code>foaf:</code>), which  can
+      be used for prefixed names (such as <code>foaf:Person</code>) instead of full IRIs.
+      The corresponding IRI is constructed by replacing the prefix with its
+      corresponding IRI (in this example <code>foaf:Person</code> stands for
+      <code>&lt;http://xmlns.com/foaf/0.1/Person&gt;</code>).</p>
+
+      <p>Lines 8-12 show how Turtle provides a shorthand for a set of
+      triples with the same subject. Lines 9-12 specify the predicate-object
+      part of triples that have <code>&lt;http://example.org/bob#me&gt;</code> as
+      their subject. The semicolons at the end of lines 9-11 indicate that
+      the predicate-object pair that follows it is part of
+      a new triple that uses the most recent subject shown in the data &#8212; in
+      this case <code>bob#me</code>. </p>
+
+      <p>Line 9 shows an example of a special kind of syntactic sugar. The triple
+      should informally be read as "Bob (is) a Person". The
+      <code>a</code> predicate
+      is a shorthand for the property <code>rdf:type</code> which models the
+      instance relation (see <a href="#table-rdf-schema">Table 1</a>).
+      The <code>a</code> shorthand is intended to match the human
+      intuition about <code>rdf:type</code>. </p>
+
+      <section id="section-blank-node-representation">
+        <h5>Representation of blank nodes</h5>
+
+        <p>Below we see two syntactic variants for writing down blank nodes, using the
+          earlier cypress tree example.</p>
+
+        <pre class="example" title="Blank node">
+          PREFIX lio: &lt;http://purl.org/net/lio#&gt;
+
+          &lt;http://dbpedia.org/resource/Mona_Lisa&gt; lio:shows _:x .
+          _:x a &lt;http://dbpedia.org/resource/Cypress&gt; .
+        </pre>
+
+        <p>The term <code>_:x</code> is a blank node. It represents an
+        unnamed resource depicted in
+        the Mona Lisa painting; the unnamed resource is an instance of the
+        <code>Cypress</code> class. The example above provides concrete syntax
+        for the informal graph in <a href="#fig2">Fig.&nbsp;2</a>.</p>
+
+        <p>Turtle also has an alternative notation for blank nodes, which
+        does not require the use of syntax like <code>_:x</code>: </p>
+
+        <pre class="example" title="Blank nodes (alternative notation)">
+          @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+
+          # Some resource (blank node) is interested in some other resource
+          # entitled "Mona Lisa" and created by Leonardo da Vinci.
+
+          [] foaf:topic_interest [
+                    dcterms:title "Mona Lisa" ;
+                    dcterms:creator &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt; ] .
+        </pre>
+
+        <p>Square brackets represent here a blank node. Predicate-object pairs within
+        the square brackets are interpreted as triples with the blank node as
+        subject. Lines starting with '#' represent
+        comments. </p>
+
+        <p>For more details about the syntax of Turtle please consult the Turtle specification [[RDF12-TURTLE]].</p>
+      </section>
+
+    </section>
+
+    <section id="section-trig">
+      <h4>TriG</h4>
+
+      <p>The syntax of Turtle supports only the specification of single
+      graphs without a means for "naming" them. TriG [[RDF12-TRIG]] is an
+      <strong>extension of Turtle</strong> enabling the specification of
+      multiple graphs in the form of an RDF dataset.</p>
+
+      <p class="note">In RDF 1.1 any legal Turtle document is a legal TriG
+      document. One could view it as one language. The names Turtle and TriG
+      still exist for historical reasons.</p>
+
+      <p>The <a href="#section-multiple-graphs">multiple-graphs version of our example</a>
+      can be specified in TriG as follows:</p>
+
+      <pre class="example" title="TriG" id="trig-example">
+        <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
+        <span class="linenum">02</span>    PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+        <span class="linenum">03</span>    PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
+        <span class="linenum">04</span>    PREFIX schema: &lt;http://schema.org/&gt;
+        <span class="linenum">05</span>    PREFIX dcterms: &lt;http://purl.org/dc/terms/&gt;
+        <span class="linenum">06</span>    PREFIX wd: &lt;http://www.wikidata.org/entity/&gt;
+        <span class="linenum">07</span>
+        <span class="linenum">08</span>    GRAPH &lt;http://example.org/bob&gt;
+        <span class="linenum">09</span>      {
+        <span class="linenum">10</span>        &lt;bob#me&gt;
+        <span class="linenum">11</span>            a foaf:Person ;
+        <span class="linenum">12</span>            foaf:knows &lt;alice#me&gt; ;
+        <span class="linenum">13</span>            schema:birthDate "1990-07-04"^^xsd:date ;
+        <span class="linenum">14</span>            foaf:topic_interest wd:Q12418 .
+        <span class="linenum">15</span>      }
+        <span class="linenum">16</span>
+        <span class="linenum">17</span>    GRAPH &lt;https://www.wikidata.org/wiki/Special:EntityData/Q12418&gt;
+        <span class="linenum">18</span>      {
+        <span class="linenum">19</span>        wd:Q12418
+        <span class="linenum">20</span>            dcterms:title "Mona Lisa" ;
+        <span class="linenum">21</span>            dcterms:creator &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt; .
+        <span class="linenum">22</span>
+        <span class="linenum">23</span>        &lt;http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619&gt;
+        <span class="linenum">24</span>           dcterms:subject wd:Q12418 .
+        <span class="linenum">25</span>      }
+        <span class="linenum">26</span>
+        <span class="linenum">27</span>    &lt;http://example.org/bob&gt;
+        <span class="linenum">28</span>        dcterms:publisher &lt;http://example.org&gt; ;
+        <span class="linenum">29</span>        dcterms:rights &lt;http://creativecommons.org/licenses/by/3.0/&gt; .
+      </pre>
+
+      <p>This RDF dataset contains two named graphs. Lines 8 and 17 list
+      the names of these two graphs. The triples in the named graph are
+      placed in between matching curly braces (lines 9 &amp; 15, 18 &amp;
+      25). Optionally you can precede the graph name with the keyword
+      <code>GRAPH</code>. This may improve readability, but it is mainly
+      introduced for alignment with SPARQL Update [[SPARQL12-UPDATE]]. </p>
+
+      <p>The syntax of the triples and of the directives at the top conforms to
+      the Turtle syntax.</p>
+
+      <p>The two triples specified on lines 27-29 are not part of any
+      named graph. Together they form the unnamed ("default") graph of this RDF
+      dataset.</p>
+
+      <p>The figure below shows the triples resulting from this example.</p>
+
+      <figure id="fig5">
+        <img style="width: 75%" src="example-multiple-graphs-iris.jpg"
+                  alt="Triples resulting from the TriG example">
+        <figcaption>Triples resulting from the TriG example</figcaption>
+      </figure>
+    </section>
+
+    <section id="section-n-quads">
+      <h4>N-Quads</h4>
+
+      <p>N-Quads [[RDF12-N-QUADS]] is a simple extension to N-Triples to enable the exchange of RDF
+      datasets. N-Quads allows one to add a fourth element to a line, capturing
+      the graph IRI of the triple described on that line.  Here is the
+      N-Quads version of the TriG example above:</p>
+
+      <pre class="example" title="N-Quads" id="n-quads-example">
+        <span class="linenum">01</span>    &lt;http://example.org/bob#me&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Person&gt; &lt;http://example.org/bob&gt; .
+        <span class="linenum">02</span>    &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; &lt;http://example.org/bob&gt; .
+        <span class="linenum">03</span>    &lt;http://example.org/bob#me&gt; &lt;http://schema.org/birthDate&gt; "1990-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; &lt;http://example.org/bob&gt; .
+        <span class="linenum">04</span>    &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/topic_interest&gt; &lt;http://www.wikidata.org/entity/Q12418&gt; &lt;http://example.org/bob&gt; .
+        <span class="linenum">05</span>    &lt;http://www.wikidata.org/entity/Q12418&gt; &lt;http://purl.org/dc/terms/title&gt; "Mona Lisa" &lt;https://www.wikidata.org/wiki/Special:EntityData/Q12418&gt; .
+        <span class="linenum">06</span>    &lt;http://www.wikidata.org/entity/Q12418&gt; &lt;http://purl.org/dc/terms/creator&gt; &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt; &lt;https://www.wikidata.org/wiki/Special:EntityData/Q12418&gt; .
+        <span class="linenum">07</span>    &lt;http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619&gt; &lt;http://purl.org/dc/terms/subject&gt; &lt;http://www.wikidata.org/entity/Q12418&gt; &lt;https://www.wikidata.org/wiki/Special:EntityData/Q12418&gt; .
+        <span class="linenum">08</span>    &lt;http://example.org/bob&gt; &lt;http://purl.org/dc/terms/publisher&gt; &lt;http://example.org&gt; .
+        <span class="linenum">09</span>    &lt;http://example.org/bob&gt; &lt;http://purl.org/dc/terms/rights&gt; &lt;http://creativecommons.org/licenses/by/3.0/&gt; .
+      </pre>
+
+      <p>The nine lines in the N-Quads example correspond to the nine
+      arcs in <a href="#fig5">Fig.&nbsp;5</a>. Lines 1-7 represent quads, where the first
+      element constitutes the graph IRI. The part of the quad after the
+      graph IRI specifies the
+      subject, predicate and object of the statement, following the syntactic
+      conventions of N-Triples. Lines 8 and 9 represent the statements in the unnamed (default)
+      graph, which lack a fourth element and thus constitute regular triples. </p>
+
+      <p><p>Like N-Triples, N-Quads is typically used for exchanging large RDF datasets and for
+      processing RDF with line-oriented text processing tools. </p>
+
+    </section>
+  </section>
+
+  <section id="section-json-ld">
+    <h3>JSON-LD</h3>
+
+    <p>JSON-LD [[JSON-LD11]]
+    provides a JSON syntax for RDF graphs and datasets.
+    JSON-LD can be used to transform JSON documents to RDF with
+    minimal changes. JSON-LD offers universal identifiers for
+    JSON objects, a mechanism in which a JSON document can refer to
+    an object described in another JSON document elsewhere on the
+    Web, as well as datatype and language handling. JSON-LD
+    also provides a way to serialize RDF datasets
+    through the use of the
+    <a data-cite="JSON-LD11#named-graphs">@graph</a> keyword.</p>
+
+    <p>The following JSON-LD example encodes the graph of <a
+      href="#fig4">Fig.&nbsp;4</a>:</p>
+
+    <pre class="example" title="JSON-LD">
+      <span class="linenum">01</span>    {
+      <span class="linenum">02</span>      "@context": "example-context.json",
+      <span class="linenum">03</span>      "@id": "http://example.org/bob#me",
+      <span class="linenum">04</span>      "@type": "Person",
+      <span class="linenum">05</span>      "birthdate": "1990-07-04",
+      <span class="linenum">06</span>      "knows": "http://example.org/alice#me",
+      <span class="linenum">07</span>      "interest": {
+      <span class="linenum">08</span>        "@id": "http://www.wikidata.org/entity/Q12418",
+      <span class="linenum">09</span>        "title": "Mona Lisa",
+      <span class="linenum">10</span>        "subject_of": "http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619",
+      <span class="linenum">11</span>        "creator": "http://dbpedia.org/resource/Leonardo_da_Vinci"
+      <span class="linenum">12</span>      }
+      <span class="linenum">13</span>    }
+    </pre>
+
+    <p>The <code>@context</code> key on line 2
+    points to a JSON document
+    describing how the document can be mapped to an RDF graph (see below).
+    Each JSON object corresponds to an RDF resource. In this example
+    the main resource being described is
+    <code>http://example.org/bob#me</code>, as
+    specified on line 3, through the use of the <code>@id</code> keyword.
+    The <code>@id</code> keyword, when used as a key in a JSON-LD document, points
+    to an IRI identifying the resource corresponding to the current JSON object.
+    We describe the type of this resource on line 4, its birth date
+    on line 5 and one of its friends on line 6. From line 7 to 12 we describe
+    one of its interests, the Mona Lisa painting.</p>
+
+    <p>To describe this painting we create a
+    new JSON object on line 7 and associate it with the Mona Lisa IRI in Wikidata
+    on line 8. We then describe various properties of that painting
+    from line 9 to line 11. </p>
+
+    <p>The JSON-LD context used in this example is given below.</p>
+
+    <pre class="example" title="JSON-LD context specification">
+      <span class="linenum">01</span>    {
+      <span class="linenum">02</span>      "@context": {
+      <span class="linenum">03</span>        "foaf": "http://xmlns.com/foaf/0.1/",
+      <span class="linenum">04</span>        "Person": "foaf:Person",
+      <span class="linenum">05</span>        "interest": "foaf:topic_interest",
+      <span class="linenum">06</span>        "knows": {
+      <span class="linenum">07</span>          "@id": "foaf:knows",
+      <span class="linenum">08</span>          "@type": "@id"
+      <span class="linenum">09</span>        },
+      <span class="linenum">10</span>        "birthdate": {
+      <span class="linenum">11</span>          "@id": "http://schema.org/birthDate",
+      <span class="linenum">12</span>          "@type": "http://www.w3.org/2001/XMLSchema#date"
+      <span class="linenum">13</span>        },
+      <span class="linenum">14</span>        "dcterms": "http://purl.org/dc/terms/",
+      <span class="linenum">15</span>        "title": "dcterms:title",
+      <span class="linenum">16</span>        "creator": {
+      <span class="linenum">17</span>          "@id": "dcterms:creator",
+      <span class="linenum">18</span>          "@type": "@id"
+      <span class="linenum">19</span>        },
+      <span class="linenum">20</span>        "subject_of": {
+      <span class="linenum">21</span>          "@reverse": "dcterms:subject",
+      <span class="linenum">22</span>          "@type": "@id"
+      <span class="linenum">23</span>        }
+      <span class="linenum">24</span>      }
+      <span class="linenum">25</span>    }
+    </pre>
+
+    <p>This context describes how a JSON-LD document can be mapped
+    to an RDF graph. Lines 4 to 9 specify how to map
+    <code>Person</code>, <code>interest</code> and <code>knows</code>
+    to types and properties in the FOAF namespace defined
+    on line 3. We also specify on line 8 that the <code>knows</code>
+    key has a value that will be interpreted as an IRI, through
+    the use of the <code>@type</code> and <code>@id</code> keywords.</p>
+
+    <p>From line 10 to line 12 we map <code>birthdate</code> to
+    a schema.org property IRI and specify that its value can
+    be mapped to an <code>xsd:date</code> datatype. </p>
+
+    <p>From line 14 to line 23 we describe how to map
+    <code>title</code>, <code>creator</code> and <code>subject_of</code>
+    to Dublin Core property IRIs. The <code>@reverse</code>
+    keyword on line 21 is used to specify that, whenever we
+    encounter <code>"subject_of": "x"</code> in a JSON-LD document using this
+    context, we should map it to an RDF triple which subject is the <code>x</code>
+    IRI, which property is <code>dcterms:subject</code> and
+    which object is the resource corresponding to the parent JSON object.</p>
+
+  </section>
+
+  <section id="section-rdfa">
+    <h3>RDFa</h3>
+
+    <p>RDFa [[RDFA-PRIMER]] is an RDF syntax that  can be used to embed RDF data within
+    HTML and XML documents. This enables, for example, search engines to aggregate
+    this data when crawling the Web and use it to enrich search
+    results (see, e.g., <a href="https://schema.org">schema.org</a>
+    and <a href="https://support.google.com/webmasters/answer/99170?hl=en">Rich
+    Snippets</a>). </p>
+
+    <p>The HTML example below encodes the
+    RDF graph depicted in <a href="#fig4">Fig.&nbsp;4</a>:</p>
+
+    <pre class="example" title="RDFa" id="rdfa-example">
+      <span class="linenum">01</span>  &lt;body prefix="foaf: http://xmlns.com/foaf/0.1/
+      <span class="linenum">02</span>                   schema: http://schema.org/
+      <span class="linenum">03</span>                   dcterms: http://purl.org/dc/terms/"&gt;
+      <span class="linenum">04</span>    &lt;div resource="http://example.org/bob#me" typeof="foaf:Person"&gt;
+      <span class="linenum">05</span>      &lt;p&gt;
+      <span class="linenum">06</span>        Bob knows &lt;a property="foaf:knows" href="http://example.org/alice#me"&gt;Alice&lt;/a&gt;
+      <span class="linenum">07</span>        and was born on the &lt;time property="schema:birthDate" datatype="xsd:date"&gt;1990-07-04&lt;/time&gt;.
+      <span class="linenum">08</span>      &lt;/p&gt;
+      <span class="linenum">09</span>      &lt;p&gt;
+      <span class="linenum">10</span>        Bob is interested in &lt;span property="foaf:topic_interest"
+      <span class="linenum">11</span>        resource="http://www.wikidata.org/entity/Q12418"&gt;the Mona Lisa&lt;/span&gt;.
+      <span class="linenum">12</span>      &lt;/p&gt;
+      <span class="linenum">13</span>    &lt;/div&gt;
+      <span class="linenum">14</span>    &lt;div resource="http://www.wikidata.org/entity/Q12418"&gt;
+      <span class="linenum">15</span>      &lt;p&gt;
+      <span class="linenum">16</span>        The &lt;span property="dcterms:title"&gt;Mona Lisa&lt;/span&gt; was painted by
+      <span class="linenum">17</span>        &lt;a property="dcterms:creator" href="http://dbpedia.org/resource/Leonardo_da_Vinci"&gt;Leonardo da Vinci&lt;/a&gt;
+      <span class="linenum">18</span>        and is the subject of the video
+      <span class="linenum">19</span>        &lt;a href="http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619"&gt;'La Joconde à Washington'&lt;/a&gt;.
+      <span class="linenum">20</span>      &lt;/p&gt;
+      <span class="linenum">21</span>    &lt;/div&gt;
+      <span class="linenum">22</span>    &lt;div resource="http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619"&gt;
+      <span class="linenum">23</span>        &lt;link property="dcterms:subject" href="http://www.wikidata.org/entity/Q12418"/&gt;
+      <span class="linenum">24</span>    &lt;/div&gt;
+      <span class="linenum">25</span>  &lt;/body&gt;
+    </pre>
+
+    <p>The example above contains four special RDFa attributes to enable
+    specification of RDF triples within HTML: <code>resource</code>,
+    <code>property</code>, <code>typeof</code> and <code>prefix</code>.<p>
+
+    <p>The <code>prefix</code> attribute in line 1 specifies IRI
+    shorthands in a similar fashion as the Turtle prefixes. Strictly
+    speaking, these particular prefixes could have been omitted, as RDFa has a
+    list of <a href="https://www.w3.org/2011/rdfa-context/rdfa-1.1">predefined
+    prefixes</a> which includes the ones used in this example.</p>
+
+    <p>The <code>div</code> elements in lines 4 and 14 have a <code>resource</code>
+    attribute specifying the IRI about which RDF statements can be
+    made within this HTML element. The meaning of the <code>typeof</code>
+    attribute in line 4 is similar to the <code>(is) a</code> shorthand in
+    Turtle: the subject <code>http://example.org/bob#me</code> is an
+    instance (<code>rdf:type</code>) of the class <code>foaf:Person</code>.<p>
+
+    <p>In line 6 we see a <code>property</code> attribute; the value
+    of this attribute (<code>foaf:knows</code>) is interpreted as an RDF
+    property IRI; the value of the <code>href</code> attribute
+    (<code>http://example.org/alice#me</code>) is
+    interpreted here as the object of the triple. Thus, the RDF statement
+    that results from line 6 is:<p>
+
+    <pre>
+      <code>&lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .</code>
+    </pre>
+
+    <p>In line 7 we see a triple with as object a literal value. The
+    <code>property</code> attribute is specified here on the HTML
+    <code>time</code> element. HTML requires that the content of the time
+    element should be some valid
+    <a href="https://www.w3.org/TR/html5/text-level-semantics.html#the-time-element">time value</a>.
+    By using the built-in HTML semantics of the
+    <code>time</code> element RDFa can interpret
+    the value as an <code>xsd:date</code> without an explicit datatype declaration.<p>
+
+    <p>In lines 10-11 we see the <code>resource</code> attribute also being used for
+    specifying the object of a triple. This approach is used when the object is an
+    IRI and the IRI itself is not part of the HTML content (such as an <code>href</code>
+    attribute). Line 16 contains a second example of a literal ("Mona
+    Lisa"), defined here as content of the <code>span</code> attribute. If
+    RDFa cannot infer the datatype of the literal, it will assume the
+    datatype to be <code>xsd:string</code>. </p>
+
+    <p>It is not always possible to define RDF statements as part of the
+    HTML content of the document. In that case it is possible to use HTML
+    constructs that do not render content to specify a triple. An example
+    can be found on lines 22-23. The HTML <code>link</code> element on
+    line 23 is used here to specify what
+    the subject of the Europeana video (line 22) is. </p>
+
+    <p>The use of RDFa in this example is limited to RDFa Lite
+    [[RDFA-LITE]]. For more information about RDFa please consult the RDFa
+    Primer [[RDFA-PRIMER]].</p>
+
+  </section>
+
+  <section id="section-rdfxml">
+    <h3>RDF/XML</h3>
+
+    <p>RDF/XML [[RDF12-XML]] provides an XML syntax for RDF
+    graphs. When RDF was originally developed in the late 1990s, this was its
+    only syntax, and some people still call this syntax "RDF". In 2001, a
+    precursor to Turtle called "N3" was proposed, and gradually the other
+    languages listed here have been adopted and standardized. </p>
+
+    <p>The RDF/XML example below encodes the
+    RDF graph depicted in <a href="#fig4">Fig.&nbsp;4</a>:</p>
+
+    <pre class="example" title="RDF/XML" id="rdf-xml-example">
+      <span class="linenum">01</span>    &lt;?xml version="1.0" encoding="utf-8"?&gt;
+      <span class="linenum">02</span>    &lt;rdf:RDF
+      <span class="linenum">03</span>             xmlns:dcterms="http://purl.org/dc/terms/"
+      <span class="linenum">04</span>             xmlns:foaf="http://xmlns.com/foaf/0.1/"
+      <span class="linenum">05</span>             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      <span class="linenum">06</span>             xmlns:schema="http://schema.org/"&gt;
+      <span class="linenum">07</span>       &lt;rdf:Description rdf:about="http://example.org/bob#me"&gt;
+      <span class="linenum">08</span>          &lt;rdf:type rdf:resource="http://xmlns.com/foaf/0.1/Person"/&gt;
+      <span class="linenum">09</span>          &lt;schema:birthDate rdf:datatype="http://www.w3.org/2001/XMLSchema#date"&gt;1990-07-04&lt;/schema:birthDate&gt;
+      <span class="linenum">10</span>          &lt;foaf:knows rdf:resource="http://example.org/alice#me"/&gt;
+      <span class="linenum">11</span>          &lt;foaf:topic_interest rdf:resource="http://www.wikidata.org/entity/Q12418"/&gt;
+      <span class="linenum">12</span>       &lt;/rdf:Description&gt;
+      <span class="linenum">13</span>       &lt;rdf:Description rdf:about="http://www.wikidata.org/entity/Q12418"&gt;
+      <span class="linenum">14</span>          &lt;dcterms:title&gt;Mona Lisa&lt;/dcterms:title&gt;
+      <span class="linenum">15</span>          &lt;dcterms:creator rdf:resource="http://dbpedia.org/resource/Leonardo_da_Vinci"/&gt;
+      <span class="linenum">16</span>       &lt;/rdf:Description&gt;
+      <span class="linenum">17</span>       &lt;rdf:Description rdf:about="http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619"&gt;
+      <span class="linenum">18</span>          &lt;dcterms:subject rdf:resource="http://www.wikidata.org/entity/Q12418"/&gt;
+      <span class="linenum">19</span>       &lt;/rdf:Description&gt;
+      <span class="linenum">20</span>    &lt;/rdf:RDF&gt;
+    </pre>
+
+    <p>In RDF/XML RDF triples are specified within an XML element
+    <code>rdf:RDF</code> (lines 2 and 20). The attributes of the
+    <code>rdf:RDF</code> start tag (lines 3-6) provide a shorthand for writing down
+    names of XML elements and attributes. The XML element
+    <code>rdf:Description</code> (short for
+    <code>http://www.w3.org/1999/02/22-rdf-syntax-ns#Description</code>)
+    is used to define sets of triples that have as subject the IRI
+    specified by the <code>about</code> attribute.  The first description
+    block (line 7-12) has four sub-elements. The name of the subelement is
+    an IRI representing an RDF property, e.g., <code>rdf:type</code> (line 8). Here, each
+    subelement represents one triple.
+    In cases where the object of the triple is also an IRI
+    the property subelement has no content and the object IRI is specified
+    using the <code>rdf:resource</code> attribute (lines 8, 10-11, 15 and
+    18). For example, line 10 corresponds to the triple:</p>
+
+    <pre>
+      <code>&lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .</code>
+    </pre>
+
+    <p>When the object of the
+    triple is a literal the literal value is entered as content of the
+    property element (lines 9 and 14). The datatype is specified as
+    attribute of the property element (line 9). If the datatype is
+    omitted (line 14) and no language tag is present the literal is
+    considered to have the datatype <code>xsd:string</code>.
+
+    <p>The example shows the baseline syntax; please consult the RDF/XML
+    document [[RDF12-XML]] for a more in-depth treatment of the syntax. It
+    might seem strange that the attribute values contain full IRIs,
+    despite the fact that for some of these namespace prefixes were
+    defined. This is because these prefixes can only be used for XML
+    element and attribute names. </p>
+  </section>
+</section>
+
+<section id="section-semantics">
+  <h2>Semantics of RDF Graphs</h2>
+
+  <p>An overarching goal in the use of RDF is to be able to
+  automatically merge useful information from multiple sources to
+  form a larger collection that is still coherent and useful. As a
+  starting point for this merging, all the information is conveyed
+  in the same simple style, subject-predicate-object triples, as
+  described above. To keep the information coherent, however, we
+  need more than just a standard syntax; we also need agreement
+  about the semantics of these triples. </p>
+
+  <p>By this point in the Primer, the reader is likely to have an
+  intuitive grasp of the semantics of RDF:</p>
+  <ol>
+    <li>The IRIs used to name the subject, predicate, and object are "global" in scope,
+  naming the same thing each time they are used.</li>
+    <li>Each triple is "true" exactly when the predicate relation actually exists between
+  the subject and the object.</li>
+    <li>An RDF graph is "true" exactly when all the triples in it are "true".</li>
+  </ol>
+  <p>These notions,
+  and others, are specified with mathematical precision in the RDF
+  Semantics document [[RDF12-SEMANTICS]].</p>
+
+  <p>One of the benefits of RDF having these declarative semantics
+  is that systems can make logical inferences. That is, given a
+  certain set of input triples which they accept as true, systems
+  can in some circumstances deduce that other triples must,
+  logically, also be true. We say the first set of triples "entails"
+  the additional triples. These systems, called "reasoners", can also
+  sometimes deduce that the given input triples contradict each
+  other.</p>
+
+  <p>Given the flexibility of RDF, where new vocabularies can be
+  created when people want to use new concepts, there are many
+  different kinds of reasoning one might want to do.  When a
+  specific kind of reasoning seems to be useful in many different
+  applications, it can be documented as an <a data-cite="RDF12-SEMANTICS#entailment-regime">entailment regime</a>.
+  Several entailment regimes are specified in RDF Semantics.
+  For technical descriptions of some other entailment regimes and how to
+  use these with SPARQL, see [[SPARQL12-ENTAILMENT]].
+  Note that some
+  entailment regimes are fairly easy to implement and reasoning can
+  be done quickly, while others require sophisticated
+  techniques to implement efficiently. </p>
+
+  <p>As a sample entailment, consider the following two statements:</p>
+  <pre>
+    <code>ex:bob foaf:knows ex:alice .</code>
+    <code>foaf:knows rdfs:domain foaf:Person .</code>
+  </pre>
+  <p>The RDF Semantics document tell us that from this graph it is legal to
+  derive the following triple:</p>
+  <pre>
+    <code>ex:bob rdf:type foaf:Person .</code>
+  </pre>
+
+  <p>The derivation above is an example of an RDF Schema entailment [[RDF12-SEMANTICS]]. </p>
+
+  <p>The semantics of RDF also tell us that the triple:</p>
+
+ <pre>
+   <code>ex:bob ex:age "forty"^^xsd:integer . </code>
+ </pre>
+
+  <p>leads to a logical inconsistency, because the literal does not
+  abide by the constraints defined for the XML Schema datatype
+  <a href="https://www.w3.org/TR/xmlschema11-2/#integer">integer</a>.</p>
+
+  <p>Note that RDF tools may not recognize all datatypes. As a
+  minimum, tools are required to support the datatypes for string literals
+  and language-tagged literals.</p>
+
+  <p>Unlike many other data
+  modeling languages, RDF Schema allows considerable modeling
+  freedom. For example, the same entity may be used
+  as both a class and a property. Also, there is no strict separation
+  between the world of "classes" and of "instances". Therefore, RDF
+  semantics views the following graph as valid:</p>
+
+  <pre>
+    <code>ex:Jumbo rdf:type ex:Elephant .</code>
+    <code>ex:Elephant rdf:type ex:Species .</code>
+  </pre>
+
+   <p>So, an elephant can both be a class (with Jumbo as a sample
+   instance) and an instance (namely of the class of
+   animal species).</p>
+
+  <p>The examples in this section are just meant to give the reader
+    some feeling about what the RDF Semantics brings you. Please consult
+    [[RDF12-SEMANTICS]] for a complete description.</p>
+
+</section>
+
+<section id="section-data">
+  <h2>RDF Data</h2>
+
+  <p>RDF allows you to combine triples from any source into a graph
+  and process it as legal RDF. A large amount of RDF data is
+  available as Linked
+  Data [[LINKED-DATA]]. Datasets are being published and
+  interlinked on the Web using RDF, and many of them offer a
+  querying facility through SPARQL [[SPARQL12-CONCEPTS]]. Examples
+  of such datasets used in the examples above include:</p>
+
+  <ul>
+    <li><a href="https://www.wikidata.org/">Wikidata</a>, a free,
+    collaborative and multilingual database and ran by the
+    <a href="https://www.wikimedia.org/">Wikimedia Foundation</a>.</li>
+
+    <li><a href="https://dbpedia.org/">DBpedia</a>, publishing data extracted
+    from <a href="https://en.wikipedia.org/wiki/Help:Infobox">Wikipedia infoboxes</a>.</li>
+
+    <li><a href="https://www.w3.org/2006/03/wn/wn20/">WordNet</a>,
+    a lexical database of English terms, grouped in sets
+    of synonyms, with a range of semantic interrelations. Similar
+    databases exist for other languages.</li>
+
+    <li><a href="https://www.europeana.eu/">Europeana</a>, publishing
+    data about cultural objects from a large number of European
+    institutions.</li>
+
+    <li><a href="https://viaf.org/">VIAF</a>, publishing data about
+    people, works and geographic places from a number of national
+    libraries and other agencies.</li>
+  </ul>
+
+  <p>A list of datasets available as Linked Data is maintained at
+  <a href="https://datahub.io/dataset">datahub.io</a>.</p>
+
+  <P>A number of vocabulary terms have become popular for
+  recording links between RDF data sources. An example is the
+  <code>sameAs</code> property provided by the OWL vocabulary. This
+  property can be used to indicate that two IRIs point in fact
+  to the same resource. This is useful because different publishers
+  may use different identifiers to denote the same thing. For
+  example, VIAF (see above) also has an IRI denoting Leonardo da
+  Vinci. With the help of <code>owl:sameAs</code> we can record this
+  information:</p>
+
+  <pre class="example" title="Link between datasets">
+  &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt;
+      owl:sameAs &lt;http://viaf.org/viaf/24604287/&gt; .
+  </pre>
+
+  <p>Such links can be deployed by RDF data-processing
+  software, for example by merging or comparing RDF data of
+  IRIs that point to the same resource. </p>
+</section>
+
+<section id="section-conclusion">
+  <h2>More Information</h2>
+
+  <p>This concludes our brief introduction into RDF. Please consult
+  the references to get more detailed information. You might also
+  want to take a look at the
+  <a href="https://www.w3.org/standards/semanticweb/data">W3C Linked Data page</a>.</p>
+
+  </section>
+
+  <section id="section-Acknowledgments" class="appendix">
+  <h2>Acknowledgments</h2>
+
+  <p>Antoine Isaac provided many examples, including the
+  different syntactic forms. Pierre-Antoine Champin provided one of
+  the JSON-LD examples. Andrew Wood designed the
+  diagrams. Sandro Hawke wrote the first part of the section on RDF
+  semantics. <p>
+  <p>We are grateful for the comments provided by (in
+  alphabetical order) Gareth Adams, Thomas Baker, Dan Brickley, Pierre-Antoine
+  Champin, Bob DuCharme, Sandro Hawke, Patrick
+  Hayes, Ivan Herman, Kingsley Idehen, Antoine Isaac, Markus Lanthaler, and David Wood. </p>
+
+  <p>The introduction of this document contains a number of sentences from the
+     2004 Primer [[RDF-PRIMER]]. For the rest the RDF 1.1 Primer is a completely
+     new document.</p>
+</section>
+
+<section  id="section-Changes" class="appendix">
+  <h2>Changes since the previous publication</h2>
+  <ul>
+    <li>Small editorial issues fixed (including three listed
+    <a href="https://www.w3.org/2014/rdf1.1-errata">errata</a>).</li>
+    <li>Link to Japanese translation added.</li>
+  </ul>
+</section>
+
+<section id="index"></section>
+</body></html>
