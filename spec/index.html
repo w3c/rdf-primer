@@ -20,16 +20,12 @@
       prevRecShortname:     "rdf11-primer",
 
       editors:  [
-          { name: "Guus Schreiber", url: "http://www.cs.vu.nl/~guus/",
-            company: "VU University Amsterdam", companyURL: "http://www.vu.nl/"
-          },
-          { name: "Yves Raimond",  url: "http://raimond.me.uk/",
-            company: "BBC", companyURL: "http://www.bbc.co.uk"
-
-          },
+        { name: "Pierre-Antoine Champin", w3cid: "42931"},
       ],
 
       formerEditors: [
+        { name: "Guus Schreiber" },
+        { name: "Yves Raimond" },
         { name: "Frank Manola" },
         { name: "Eric Miller" },
         { name: "Brian McBride" }
@@ -63,12 +59,10 @@
 </section>
 
 <section id="sotd">
-  <p>This document is part of the RDF 1.1 document suite. It is an
+  <p>This document is part of the RDF 1.2 document suite. It is an
   informative note on the key concepts of RDF. For a normative
-  specification of RDF 1.1 the reader is referred to the RDF
-  1.1. Concepts and Abstract Syntax document
-  [[RDF12-CONCEPTS]]. This document contains some minor editorial
-  <a href="#section-Changes">fixes</a> of the Februay 2014 version.</p>
+  specification of RDF 1.2 the reader is referred to the [[[RDF12-CONCEPTS]]] document
+  [[RDF12-CONCEPTS]].</p>
 
   <section id="related" data-include="./common/related.html"></section>
 </section>
@@ -99,7 +93,7 @@
   For example, retrieving <code>http://www.example.org/bob#me</code>
   could provide data about Bob, including the fact that he
   knows Alice, as identified by her IRI (an IRI is an "International
-  Resource Identifier"; see <a href="#section-IRI">Sec.&nbsp;3.2</a> for details).
+  Resource Identifier"; see <a href="#section-IRI" class="sectionRef"></a> for details).
   Retrieving Alice's IRI could then provide more data about her, including links
   to other datasets for her friends, interests, etc. A person or
   an automated process can then follow such links and aggregate data about these
@@ -107,7 +101,7 @@
   qualified as Linked Data [[LINKED-DATA]]. </p>
 
   <p>This document is not normative and does not give a complete
-  account of RDF 1.1. Normative
+  account of RDF 1.2. Normative
   specifications of RDF can be found in the following documents: </p>
   <ul>
     <li>A document describing the basic concepts underlying RDF, as
@@ -123,7 +117,7 @@
         <li>N-Triples [[RDF12-N-TRIPLES]] and N-Quads [[RDF12-N-QUADS]]
               (line-based exchange formats)</li>
         <li>RDF/XML [[RDF12-XML]] (the original 2004 syntax, updated
-              for RDF 1.1)</li>
+              for RDF 1.2)</li>
       </ul>
     </li>
     <li>A document describing RDF Schema [[RDF12-SCHEMA]], which
@@ -241,7 +235,7 @@
     produce exactly the same graph from the perspective of the
     abstract syntax. The semantics of RDF graphs [[RDF12-SEMANTICS]] are defined in
     terms of this abstract syntax. Concrete RDF syntax is introduced
-    later in <a href="#section-graph-syntax">Sec.&nbsp;5</a>.</p>
+    later in <a href="#section-graph-syntax" class="sectionRef"></a>.</p>
 
     <p>In the next three subsections we discuss the three types of RDF data
     that occur in triples: IRIs, literals and blank nodes. </p>
@@ -430,7 +424,7 @@
     </figure>
 
     <p><a href="#fig3">Fig.&nbsp;3</a> depicts the sample dataset.
-    <a href="#section-trig">Sec.&nbsp;5.1.3</a> provides an example
+    <a href="#section-trig" class="sectoinRef"></a> provides an example
     of concrete syntax for this dataset.</p>
     </section>
 </section>
@@ -516,7 +510,7 @@
 
   <p class="note">The syntactic form (second column) is in a prefix
   notation which is discussed in more detail in
-  <a href="#section-graph-syntax">Sec.&nbsp;5</a>.
+  <a href="#section-graph-syntax" class="sectionRef"></a>.
   The fact that the constructs have two different prefixes
   (<code>rdf:</code> and <code>rdfs:</code>) is a somewhat annoying
   historical artefact, which is preserved for backward
@@ -787,7 +781,7 @@
       <strong>extension of Turtle</strong> enabling the specification of
       multiple graphs in the form of an RDF dataset.</p>
 
-      <p class="note">In RDF 1.1 any legal Turtle document is a legal TriG
+      <p class="note">In RDF 1.2 any legal Turtle document is a legal TriG
       document. One could view it as one language. The names Turtle and TriG
       still exist for historical reasons.</p>
 
@@ -1322,27 +1316,51 @@
   <section id="section-Acknowledgments" class="appendix">
   <h2>Acknowledgments</h2>
 
-  <p>Antoine Isaac provided many examples, including the
-  different syntactic forms. Pierre-Antoine Champin provided one of
-  the JSON-LD examples. Andrew Wood designed the
-  diagrams. Sandro Hawke wrote the first part of the section on RDF
-  semantics. <p>
-  <p>We are grateful for the comments provided by (in
-  alphabetical order) Gareth Adams, Thomas Baker, Dan Brickley, Pierre-Antoine
-  Champin, Bob DuCharme, Sandro Hawke, Patrick
-  Hayes, Ivan Herman, Kingsley Idehen, Antoine Isaac, Markus Lanthaler, and David Wood. </p>
+    <section class="informative">
+      <h3>Acknowledgements for RDF 1.1</h3>
 
-  <p>The introduction of this document contains a number of sentences from the
-     2004 Primer [[RDF-PRIMER]]. For the rest the RDF 1.1 Primer is a completely
-     new document.</p>
+    <p>Antoine Isaac provided many examples, including the
+    different syntactic forms. Pierre-Antoine Champin provided one of
+    the JSON-LD examples. Andrew Wood designed the
+    diagrams. Sandro Hawke wrote the first part of the section on RDF
+    semantics. <p>
+    <p>We are grateful for the comments provided by (in
+    alphabetical order) Gareth Adams, Thomas Baker, Dan Brickley, Pierre-Antoine
+    Champin, Bob DuCharme, Sandro Hawke, Patrick
+    Hayes, Ivan Herman, Kingsley Idehen, Antoine Isaac, Markus Lanthaler, and David Wood. </p>
+
+    <p>The introduction of this document contains a number of sentences from the
+       2004 Primer [[RDF-PRIMER]]. For the rest the RDF 1.1 Primer is a completely
+       new document.</p>
+  </section>
+
+  <section class="informative">
+    <h3>Acknowledgements for RDF 1.2</h3>
+
+    <p>In addition to the editors, the following people have contributed to this specification:
+      <span id="gh-contributors"></span>
+    </p>
+
+    <p data-include="common/participants.html"></p>
+
+    <p class="ednote">Recognize members of the Task Force? Not an easy to find list of contributors.</p>
+  </section>
 </section>
 
-<section  id="section-Changes" class="appendix">
-  <h2>Changes since the previous publication</h2>
+<section  id="section-Changes11" class="appendix">
+  <h2>Changes between RDF 1.0 and RDF 1.1</h2>
   <ul>
     <li>Small editorial issues fixed (including three listed
-    <a href="https://www.w3.org/2014/rdf1.1-errata">errata</a>).</li>
+      <a href="https://www.w3.org/2014/rdf1.1-errata">errata</a>).</li>
     <li>Link to Japanese translation added.</li>
+  </ul>
+</section>
+
+<section class="appendix informative" id="changes-12">
+  <h2>Changes between RDF 1.1 and RDF 1.2</h2>
+
+  <ul>
+    
   </ul>
 </section>
 
