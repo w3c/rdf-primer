@@ -246,7 +246,7 @@
     <h3>IRIs</h3>
 
     <p>The abbreviation IRI is short for "International Resource
-    Identifier". An <a data-cite="RDF12-CONCEPTS#iri">IRI</a>
+    Identifier". An <a data-cite="RDF12-CONCEPTS#dfn-iri">IRI</a>
     identifies a resource. The URLs (Uniform Resource Locators) that
     people use as Web addresses are one form of IRI. Other forms of IRI
     provide an identifier for a resource without implying its location
@@ -294,13 +294,13 @@
 
     <h3>Literals</h3>
 
-    <p><a data-cite="RDF12-CONCEPTS#literal">Literals</a>
+    <p><a data-cite="RDF12-CONCEPTS#dfn-literal">Literals</a>
     are basic values that are not IRIs. Examples of literals include
     strings such as "La Joconde", dates such as "the 4th of July, 1990"
     and numbers such as "3.14159".
-    Literals are associated with a <a data-cite="RDF12-CONCEPTS#datatype">datatype</a>
+    Literals are associated with a <a data-cite="RDF12-CONCEPTS#dfn-datatype">datatype</a>
     enabling such values to be parsed and interpreted correctly.
-    String literals can optionally be associated with a <a data-cite="RDF12-CONCEPTS#language-tag">language tag</a>.
+    String literals can optionally be associated with a <a data-cite="RDF12-CONCEPTS#dfn-language-tag">language tag</a>.
     For example, "Léonard de Vinci" could
     be associated with the "fr" language tag and "李奥纳多·达·文西"
     with the "zh" language tag.</p>
@@ -333,7 +333,7 @@
     identifier.  For example, we might want to state that the Mona
     Lisa painting has in its background an unidentified tree which
     we know to be a cypress tree. A resource without a global identifier, such as the
-    painting's cypress tree, can be represented in RDF by a <a data-cite="RDF12-CONCEPTS#blank-node">blank node</a>.
+    painting's cypress tree, can be represented in RDF by a <a data-cite="RDF12-CONCEPTS#dfn-blank-node">blank node</a>.
     Blank nodes are like simple variables in algebra;
     they represent some thing without saying what their value is.
     </p>
@@ -363,7 +363,7 @@
     multiple graphs that is closely aligned with SPARQL.</p>
 
     <p>Multiple graphs in
-    an RDF document constitute an <a data-cite="RDF12-CONCEPTS#rdf-dataset">RDF dataset</a>.
+    an RDF document constitute an <a data-cite="RDF12-CONCEPTS#dfn-rdf-dataset">RDF dataset</a>.
     An RDF dataset may have multiple named graphs and
     at most one unnamed ("default") graph. </p>
 
@@ -381,7 +381,7 @@
     </pre>
 
     <p>The IRI associated with the graph is
-    called the <a data-cite="RDF12-CONCEPTS#graph-name">graph name</a>.</p>
+    called the <a data-cite="RDF12-CONCEPTS#dfn-graph-name">graph name</a>.</p>
 
     <p>A second graph could be provided by <a
     href="https://www.wikidata.org/">Wikidata</a>
@@ -988,7 +988,7 @@
     HTML and XML documents. This enables, for example, search engines to aggregate
     this data when crawling the Web and use it to enrich search
     results (see, e.g., <a href="https://schema.org">schema.org</a>
-    and <a href="https://support.google.com/webmasters/answer/99170?hl=en">Rich
+    and <a href="https://developers.google.com/search/blog/2009/05/introducing-rich-snippets">Rich
     Snippets</a>). </p>
 
     <p>The HTML example below encodes the
