@@ -826,6 +826,38 @@
         <p>For more details about the syntax of Turtle please consult the Turtle specification [[RDF12-TURTLE]].</p>
       </section>
 
+      <section id="section-turtle-reifier-representation">
+        <h5>Representations of reifying triples</h5>
+
+        <p>Turtle provides concise notation for reifying and annotating
+        triples. This allows us to encode the example in the section about <a
+        href="#section-triple-terms">triple terms</a>, where the simple fact
+        that Bob is interested in the Mona Lisa was annotated with a more
+        specific circumstance.</p>
+
+        <p>We can use an unnamed annotation to state when the interest itself
+        began:</p>
+        <pre class="example turtle" title="Unnamed annotation"
+             data-include="example-unnamed-annotation.ttl"
+             data-include-format="text">
+        </pre>
+
+        <p>We can also describe that Alice has once made the simple claim. Here
+        we use syntax for a reifying triple, which references it without
+        implying its truth:</p>
+        <pre class="example turtle" title="Unnamed reifier"
+             data-include="example-unnamed-reifier.ttl"
+             data-include-format="text">
+        </pre>
+
+        <p>The previous two descriptions can also be combined, as two
+        annotations on one statement. Here we also identify the reifiers with
+        IRIs:</p>
+        <pre class="example turtle" title="Named annotations"
+             data-include="example-named-annotations.ttl"
+             data-include-format="text">
+        </pre>
+      </section>
     </section>
 
     <section id="section-trig">

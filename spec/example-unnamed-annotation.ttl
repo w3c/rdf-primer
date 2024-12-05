@@ -1,0 +1,4 @@
+PREFIX prov: <http://www.w3.org/ns/prov#>
+
+<bob#me> foaf:topic_interest wd:Q12418 {| a prov:Influence ;
+                                          dcterms:date "1998-10-04"^^xsd:date |} .
