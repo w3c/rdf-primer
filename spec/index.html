@@ -237,8 +237,8 @@
     terms of this abstract syntax. Concrete RDF syntax is introduced
     later in <a href="#section-graph-syntax" class="sectionRef"></a>.</p>
 
-    <p>In the next three subsections we discuss the three types of RDF data
-    that occur in triples: IRIs, literals and blank nodes. </p>
+    <p>In the next four subsections we discuss the four types of RDF data
+    that occur in triples: IRIs, literals, blank nodes and triple terms. </p>
 
   </section>
 
@@ -349,6 +349,61 @@
       <figcaption>Informal blank node example: the background of the Mona Lisa depicts
         an unnamed resource that belongs to the class of cypress trees.</figcaption>
     </figure>
+  </section>
+
+  <section id="section-triple-terms">
+    <h3>Triple terms</h3>
+
+    <p>A triple is a simple abstraction for stating a directed, binary
+    relationship between two resources. It is the basic unit of description in
+    RDF. Sometimes we need to describe more detailed circumstances underlying
+    such relationships. While you can describe these using more sophisticated
+    modelling, there is a tension between simple, direct statements and more
+    complex, granular descriptions.</p>
+
+    <p>RDF defines <a
+    data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a> for this
+    purpose. They make it possible to describe more concrete circumstances,
+    such as events, relationship entities or tokens in data sources, <em>in
+    relation to</em> simple statements. This allows us to keep the simple
+    relationships, rather than remodel them into more complex structures.</p>
+
+    <p>Conceptually, we can <em>annotate</em> a simple statement:</p>
+    <pre class="example nohighlight">
+      &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; <sup><strong>~ &lt;Bob's interest></strong></sup> .
+    </pre>
+
+    <p>This annotation refers to <em>the interest itself</em>, as a concrete
+    circumstance. We can thus describe it concretely:</p>
+    <pre class="example nohighlight">
+      &lt;Bob's interest> &lt;is an> &lt;Interest> .
+      &lt;Bob's interest> &lt;since> &lt;4th of October 1998> .
+    </pre>
+
+    <p>An annotation is formed by the statement itself and a
+    <a data-cite="RDF12-CONCEPTS#dfn-reifying-triple">reifying triple</a>.</p>
+    <pre class="example nohighlight">
+      &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; .
+      &lt;Bob's interest> &lt;reifies> <strong>&Lang; <small>&lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;</small> &Rang;</strong> .
+    </pre>
+
+    <p>Formally, a reifying triple is expressed as a specific relationship from
+    a resource, known as a <a
+    data-cite="RDF12-CONCEPTS#dfn-reifier">reifier</a>, and a <em>triple
+    term</em>. A triple term is a fixed object which identify a statement
+    through its constituent subject, predicate and object.</p>
+
+    <p>Reifiers are subjects of triples relating to triple terms using the
+    <code>rdf:reifies</code> predicate. Triple terms should only appear in the
+    <strong>object position</strong> of such reifying triples.</p>
+
+    <p>Note that triple terms only <em>reference</em> statements. That means
+    that we can describe statements without implying them. This can be useful
+    to describe suggestions or disputed claims. We can also annotate statements
+    with multiple reifiers, to describe various circumstances or sources
+    pertaining to different times, etc.</p>
+
+    <aside class="note">Triple terms were added to the RDF data model in RDF 1.2.</aside>
   </section>
 
   <section id="section-multiple-graphs">
