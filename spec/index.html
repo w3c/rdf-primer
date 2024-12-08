@@ -354,54 +354,57 @@
   <section id="section-triple-terms">
     <h3>Triple terms</h3>
 
-    <p>A triple is a simple abstraction for stating a directed, binary
-    relationship between two resources. It is the basic unit of description in
-    RDF. Sometimes we need to describe more detailed circumstances underlying
-    such relationships. While you can describe these using more sophisticated
+    <p>As the basic unit of description in RDF, the triple is a simple
+    abstraction for stating a directed relationship between two resources.
+    Sometimes we need to describe more detailed circumstances underlying such
+    relationships. While we can describe these using more sophisticated
     modelling, there is a tension between simple, direct statements and more
-    complex, granular descriptions.</p>
+    complex, granular descriptions. This may require a trade-off between
+    directness and completeness.</p>
 
-    <p>RDF defines <a
-    data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a> for this
-    purpose. They make it possible to describe more concrete circumstances,
-    such as events, relationship entities or tokens in data sources, <em>in
-    relation to</em> simple statements. This allows us to keep the simple
-    relationships, rather than remodel them into more complex structures.</p>
+    <p>To bridge this difference, we can use <a
+    data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a> as
+    <em>references</em> to simple statements. A triple term is a fixed object
+    that identifies a statement through its constituent subject, predicate and
+    object.</p>
 
-    <p>Conceptually, we can <em>annotate</em> a simple statement:</p>
+    <p>This enable us to describe more concrete circumstances, such as events,
+    relationship entities or tokens in data sources, <em>in relation to</em>
+    the simple statements. That allows us to keep them as is, rather than
+    requiring a complete remodelling into more detailed structures, for the
+    sake of occasionally adding details.</p>
+
+    <p>Conceptually, we can <em>annotate</em> a simple statement with a
+    reference to something more detailed:</p>
     <pre class="example nohighlight">
       &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; <sup><strong>~ &lt;Bob's interest></strong></sup> .
     </pre>
 
-    <p>This annotation refers to <em>the interest itself</em>, as a concrete
-    circumstance. We can thus describe it concretely:</p>
+    <p>This annotation refers to Bob's interest as a concrete circumstance, with
+    a date of origin:</p>
     <pre class="example nohighlight">
       &lt;Bob's interest> &lt;is an> &lt;Interest> .
       &lt;Bob's interest> &lt;since> &lt;4th of October 1998> .
     </pre>
 
-    <p>An annotation is formed by the statement itself and a
-    <a data-cite="RDF12-CONCEPTS#dfn-reifying-triple">reifying triple</a>.</p>
+    <p>Formally, an annotation is formed by two triples: the statement itself
+    and a <a data-cite="RDF12-CONCEPTS#dfn-reifying-triple">reifying
+    triple</a>. This expresses the simple relationship and the reifying relation to that from the circumstance, as a concretization thereof:</p>
     <pre class="example nohighlight">
       &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; .
-      &lt;Bob's interest> &lt;reifies> <strong>&Lang; <small>&lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;</small> &Rang;</strong> .
+      &lt;Bob's interest> &lt;is a concretization of> <strong>&laquo;&lpar; <small>&lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;</small> &rpar;&raquo;</strong> .
     </pre>
 
-    <p>Formally, a reifying triple is expressed as a specific relationship from
-    a resource, known as a <a
-    data-cite="RDF12-CONCEPTS#dfn-reifier">reifier</a>, and a <em>triple
-    term</em>. A triple term is a fixed object which identify a statement
-    through its constituent subject, predicate and object.</p>
+    <p><a data-cite="RDF12-CONCEPTS#dfn-reifier">Reifiers</a> are subjects of
+    triples relating to triple terms using the <code>rdf:reifies</code>
+    predicate. Triple terms should only appear in the <strong>object
+    position</strong> of such reifying triples.</p>
 
-    <p>Reifiers are subjects of triples relating to triple terms using the
-    <code>rdf:reifies</code> predicate. Triple terms should only appear in the
-    <strong>object position</strong> of such reifying triples.</p>
-
-    <p>Note that triple terms only <em>reference</em> statements. That means
-    that we can describe statements without implying them. This can be useful
-    to describe suggestions or disputed claims. We can also annotate statements
-    with multiple reifiers, to describe various circumstances or sources
-    pertaining to different times, etc.</p>
+    <p>Note that triple terms only <em>reference</em> statements. This means
+    that we can describe statements without implying them. This is useful for
+    describing unknown propositions such as suggestions or disputed claims. We
+    can also annotate statements with multiple reifiers, to describe different
+    circumstances varying on time, location, etc.</p>
 
     <aside class="note">Triple terms were added to the RDF data model in RDF 1.2.</aside>
   </section>
