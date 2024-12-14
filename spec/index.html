@@ -355,57 +355,61 @@
   <section id="section-triple-terms">
     <h3>Triple terms</h3>
 
-    <p>As the basic unit of description in RDF, the triple is a simple
-    abstraction for stating a directed relationship between two resources.
-    Sometimes, we need to describe more detailed circumstances underlying such
-    relationships. While we could describe these using more sophisticated
-    modelling, there is a tension between simple, direct statements and more
-    complex, granular descriptions. This may require a trade-off between
-    directness and completeness.</p>
+    <p>As the basic unit of description in RDF, the triple states a simple,
+    directed relationship between two resources. Sometimes, we need to describe
+    more detailed circumstances underlying such relationships. Conceptually, we
+    can <em>annotate</em> a statement with something more detailed:</p>
 
-    <p>To bridge this difference, we can use <a
-    data-cite="RDF12-CONCEPTS#dfn-triple-term">triple terms</a> as
-    <em>references</em> to simple statements. A triple term is a fixed object
-    that identifies a statement through its constituent subject, predicate and
-    object components.</p>
+    <figure id="fig3">
+      <a href="example-triple-annotation.svg" data-include="example-triple-annotation.svg">
+      </a>
+      <figcaption>Informal triple annotation example: a concretization of a
+      statement described with its own characteristics.</figcaption>
+    </figure>
 
-    <p>This enables us to describe more concrete circumstances, such as events,
-    relationship entities or tokens in data sources, <em>in relation to</em>
-    the simple statements. That allows us to keep them as is, rather than
-    requiring a complete remodelling into more detailed structures, for the
-    sake of occasionally adding details.</p>
+    <p>In conjunction to the arc expressing the relationship, the dashed circle
+    in the figure expresses a <a
+    data-cite="RDF12-CONCEPTS#dfn-reifier">reifier</a>. This is Bob's interest,
+    with a type and a date of origin, as a concrete circumstance of the fact
+    that Bob is interested in the Mona Lisa.</p>
 
-    <p>Conceptually, we can <em>annotate</em> a simple statement with a
-    reference to something more detailed:</p>
+    <p>Formally, this annotation is composed of four triples:</p>
     <pre class="example nohighlight">
-      &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; <sup><strong>~ &lt;Bob's interest></strong></sup> .
-    </pre>
-
-    <p>This annotation refers to Bob's interest as a concrete circumstance, with
-    a date of origin:</p>
-    <pre class="example nohighlight">
+      &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; .
+      &lt;Bob's interest> &lt;is a concretization of> <strong>&laquo;&lpar; <small>&lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;</small> &rpar;&raquo;</strong> .
       &lt;Bob's interest> &lt;is an> &lt;Interest> .
       &lt;Bob's interest> &lt;since> &lt;4th of October 1998> .
     </pre>
 
-    <p>Formally, an annotation is formed by two triples: the statement itself
-    and a <a data-cite="RDF12-CONCEPTS#dfn-reifying-triple">reifying
-    triple</a>. This expresses the simple relationship and the reifying relation to that from the circumstance, as a concretization thereof:</p>
-    <pre class="example nohighlight">
-      &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; .
-      &lt;Bob's interest> &lt;is a concretization of> <strong>&laquo;&lpar; <small>&lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;</small> &rpar;&raquo;</strong> .
-    </pre>
+    <p>The second triple is called a <a
+    data-cite="RDF12-CONCEPTS#dfn-reifying-triple">reifying triple</a>, and
+    expresses a concretization of the proposition stated by the first triple.
+    The object of a reifying triple is a <a
+    data-cite="RDF12-CONCEPTS#dfn-triple-term">triple term</a>. It denotes the
+    proposition itself, as a logical, abstract object identified through its
+    constituent subject, predicate and object components.</p>
 
-    <p><a data-cite="RDF12-CONCEPTS#dfn-reifier">Reifiers</a> are subjects of
-    triples relating to triple terms using the <code>rdf:reifies</code>
-    predicate. Triple terms should only appear in the <strong>object
-    position</strong> of such reifying triples.</p>
+    <p>Triple terms may only appear in the <strong>object position</strong>,
+    and should be used with the special <em>reifies</em> predicate of reifying
+    triples.</p>
 
-    <p>Note that triple terms only <em>reference</em> statements. This means
-    that we can describe statements without implying them. This is useful for
-    describing unknown propositions, such as suggestions or disputed claims. We
-    can also annotate statements with multiple reifiers, to describe different
-    circumstances varying in time, location, etc.</p>
+    <aside class="note">
+    Relationships can always be directly described as entities. But
+    simple, direct statements are sometimes preferred over more complex,
+    granular descriptions. That may require a trade-off between directness
+    and completeness.
+    Reifying triples is a way of bridging this difference. It enables us
+    to describe more concrete circumstances, such as events, relationships or
+    tokens in data sources, <em>in relation to</em> the simple statements.
+    </aside>
+    <aside class="note">
+    Triple terms are used to <em>relate</em> to propositions, not to state
+    them. This means that we can describe statements without implying them.
+    This is useful for describing unknown propositions, such as suggestions
+    or disputed claims.
+    We can also annotate statements with multiple reifiers, to describe
+    different circumstances varying in time, location, etc.
+    </aside>
 
     <aside class="note">Triple terms were added to the RDF data model in RDF 1.2.</aside>
   </section>
@@ -476,13 +480,13 @@
     in the intended way. Possible semantics of datasets are described in a separate note
     [[RDF11-DATASETS]]. </p>
 
-    <figure id="fig3">
+    <figure id="fig4">
       <img class="graph" src="example-multiple-graphs.jpg"
                 alt="Informal graph of the sample dataset">
       <figcaption>Informal graph of the sample dataset</figcaption>
     </figure>
 
-    <p><a href="#fig3">Fig.&nbsp;3</a> depicts the sample dataset.
+    <p><a href="#fig4">Fig.&nbsp;4</a> depicts the sample dataset.
     <a href="#section-trig" class="sectoinRef"></a> provides an example
     of concrete syntax for this dataset.</p>
     </section>
@@ -714,7 +718,7 @@
 
       <p>The figure below shows the triples resulting from the example:</p>
 
-      <figure id="fig4">
+      <figure id="fig5">
         <img style="width: 75%" src="example-graph-iris.jpg"
                   alt="Graph of the sample triples">
         <figcaption>RDF graph resulting from the N-Triples example</figcaption>
@@ -738,7 +742,7 @@
       support for namespace prefixes, lists and shorthands for datatyped
       literals. Turtle provides a trade-off between ease of
       writing, ease of parsing and readability. The graph shown in
-      <a href="#fig4">Fig.&nbsp;4</a> can be
+      <a href="#fig5">Fig.&nbsp;5</a> can be
       represented in Turtle as follows:</p>
 
       <pre class="example" title="Turtle" id="turtle-example">
@@ -927,7 +931,7 @@
 
       <p>The figure below shows the triples resulting from this example.</p>
 
-      <figure id="fig5">
+      <figure id="fig6">
         <img style="width: 75%" src="example-multiple-graphs-iris.jpg"
                   alt="Triples resulting from the TriG example">
         <figcaption>Triples resulting from the TriG example</figcaption>
@@ -955,7 +959,7 @@
       </pre>
 
       <p>The nine lines in the N-Quads example correspond to the nine
-      arcs in <a href="#fig5">Fig.&nbsp;5</a>. Lines 1-7 represent quads, where the first
+      arcs in <a href="#fig6">Fig.&nbsp;6</a>. Lines 1-7 represent quads, where the first
       element constitutes the graph IRI. The part of the quad after the
       graph IRI specifies the
       subject, predicate and object of the statement, following the syntactic
@@ -983,7 +987,7 @@
     <a data-cite="JSON-LD11#named-graphs">@graph</a> keyword.</p>
 
     <p>The following JSON-LD example encodes the graph of <a
-      href="#fig4">Fig.&nbsp;4</a>:</p>
+      href="#fig5">Fig.&nbsp;5</a>:</p>
 
     <pre class="example" title="JSON-LD">
       <span class="linenum">01</span>    {
@@ -1083,7 +1087,7 @@
     Snippets</a>). </p>
 
     <p>The HTML example below encodes the
-    RDF graph depicted in <a href="#fig4">Fig.&nbsp;4</a>:</p>
+    RDF graph depicted in <a href="#fig5">Fig.&nbsp;5</a>:</p>
 
     <pre class="example" title="RDFa" id="rdfa-example">
       <span class="linenum">01</span>  &lt;body prefix="foaf: http://xmlns.com/foaf/0.1/
@@ -1181,7 +1185,7 @@
     languages listed here have been adopted and standardized. </p>
 
     <p>The RDF/XML example below encodes the
-    RDF graph depicted in <a href="#fig4">Fig.&nbsp;4</a>:</p>
+    RDF graph depicted in <a href="#fig5">Fig.&nbsp;5</a>:</p>
 
     <pre class="example" title="RDF/XML" id="rdf-xml-example">
       <span class="linenum">01</span>    &lt;?xml version="1.0" encoding="utf-8"?&gt;
