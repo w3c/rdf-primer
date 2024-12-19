@@ -1,0 +1,29 @@
+svg {
+  font-family: sans-serif;
+  margin: auto;
+  --bg: #fff;
+  --fg: #000;
+  --green: #4aa35b;
+  --red:red;
+  --blue: #3575b8;
+  --purple: #82b;
+  --white: white;
+}
+
+.label { font-size:18px; font-weight:bold }
+
+text.iri { font-size:12px; fill:var(--fg); stroke:none }
+
+.green path { stroke:var(--green) }
+.green { fill:var(--green) }
+
+.blue path { stroke:var(--blue) }
+.blue { fill:var(--blue) }
+
+.purple path { stroke:var(--purple) }
+.purple { fill:var(--purple) }
+
+.arrow text { font-size: 16px }
+.arrow textPath { text-anchor: middle }
+.arrow path { stroke-width:2.0;marker-end:url(#ConcaveTriangle) }
+.arrow.back path { stroke-width:1.6;marker-end:none;marker-start:url(#ConcaveTriangle) }

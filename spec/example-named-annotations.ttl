@@ -1,0 +1,11 @@
+<bob#me> foaf:topic_interest wd:Q12418 ~ <bob#interest-1>
+                                       ~ <alice#claim-1> .
+
+<bob#interest-1>
+    a prov:Influence ;
+    dcterms:date "1998-10-04"^^xsd:date .
+
+<alice#claim-1>
+    a rdf:Statement ;
+    dcterms:date "2004-01-12"^^xsd:date ;
+    dcterms:creator <alice#me> .
