@@ -1,0 +1,90 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+     preserveAspectRatio="xMinYMin meet"
+     viewBox="0 0 602 400" width="602px" height="400px" xml:lang="en">
+
+  <style>@import url('figures.css');</style>
+  <defs>
+    <marker
+       style="overflow:visible"
+       id="ConcaveTriangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="2"
+       markerHeight="2"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 6,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:none"/>
+    </marker>
+  </defs>
+
+  <defs>
+    <pattern id="MonaLisaImage" width="100%" height="100%"
+            patternTransform="scale(2.3) translate(-130,14)"
+            viewBox="0 0 322 480" preserveAspectRatio="xMidYMid">
+      <image href="Mona_Lisa,_by_Leonardo_da_Vinci,_from_C2RMF_retouched.jpg"
+            width="322" height="480" />
+    </pattern>
+    <g id="personicon">
+      <path d="M458.159,404.216c-18.93-33.65-49.934-71.764-100.409-93.431c-28.868,20.196-63.938,32.087-101.745,32.087 c-37.828,0-72.898-11.89-101.767-32.087c-50.474,21.667-81.479,59.782-100.398,93.431C28.731,448.848,48.417,512,91.842,512 c43.426,0,164.164,0,164.164,0s120.726,0,164.153,0C463.583,512,483.269,448.848,458.159,404.216z"/>
+      <path d="M256.005,300.641c74.144,0,134.231-60.108,134.231-134.242v-32.158C390.236,60.108,330.149,0,256.005,0 c-74.155,0-134.252,60.108-134.252,134.242V166.4C121.753,240.533,181.851,300.641,256.005,300.641z"/>
+    </g>
+  </defs>
+
+  <rect
+      style="fill:var(--bg)"
+      width="101%"
+      height="101%"
+      x="0"
+      y="0"
+      />
+
+    <g transform="translate(120,80)">
+      <circle cx="20" cy="20" r="62" style="fill:var(--blue)"/>
+      <use href="#personicon" style="fill:var(--white)" transform="scale(0.14) translate(-110,-180)"/>
+      <text x="5" y="66" style="fill:var(--white)" class="label">Bob</text>
+      <g class="arrow blue">
+        <path d="m 80.0,20.0 160.0,0.0" id="pth-6744f48b" />
+        <text dy="-10">
+          <textPath href="#pth-6744f48b" startOffset="50%">is interested in</textPath>
+        </text>
+      </g>
+    </g>
+
+    <g transform="translate(432,80)">
+      <circle cx="20" cy="20" r="68" style="fill:var(--bg);stroke:none"/>
+      <circle cx="20" cy="20" r="64" style="stroke:var(--red);stroke-width:2;fill:none"/>
+      <circle cx="20" cy="20" r="60" style="fill:url(#MonaLisaImage)"/>
+      <text x="-30" y="108" style="fill:var(--red)" class="label">The Mona Lisa</text>
+    </g>
+
+    <g transform="translate(120,48)">
+      <g class="purple arrow back" transform="translate(160,82)">
+        <path d="m 0,0 c -8,16 -16,24 0,36 s 0,24 0,36" style="fill:none;stroke-width:2" />
+      </g>
+      <circle cx="160" cy="188" r="32"
+              style="stroke:var(--purple);stroke-width:3;fill:none;stroke-dasharray:8.0,0.0;stroke-dashoffset:0"/>
+      <g class="arrow back purple" transform="translate(85,258) rotate(-45)">
+        <path d="M 0,0 70.0,0" id="pth-6744f4c7"/>
+        <text dy="-10">
+          <textPath href="#pth-6744f4c7" startOffset="56%">is an</textPath>
+        </text>
+      </g>
+      <g transform="translate(36,292)">
+        <text x="0" y="0" class="purple label">Interest</text>
+      </g>
+      <g class="arrow purple" transform="translate(186,208) rotate(45)">
+        <path d="M 0,0 70.0,0" id="pth-6744f4a0"/>
+        <text dy="-10">
+          <textPath href="#pth-6744f4a0" startOffset="44%">since</textPath>
+        </text>
+      </g>
+      <g transform="translate(205,292)">
+        <text x="0" y="0" class="purple label">4th of October 1998</text>
+      </g>
+    </g>
+
+</svg>

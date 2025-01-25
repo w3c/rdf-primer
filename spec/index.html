@@ -21,6 +21,7 @@
 
       editors:  [
         { name: "Pierre-Antoine Champin", w3cid: "42931"},
+        { name: "Niklas Lindström" },
       ],
 
       formerEditors: [
@@ -237,8 +238,8 @@
     terms of this abstract syntax. Concrete RDF syntax is introduced
     later in <a href="#section-graph-syntax" class="sectionRef"></a>.</p>
 
-    <p>In the next three subsections we discuss the three types of RDF data
-    that occur in triples: IRIs, literals and blank nodes. </p>
+    <p>In the next four subsections, we discuss the four types of RDF data
+    that occur in triples: IRIs, literals, blank nodes, and triple terms. </p>
 
   </section>
 
@@ -351,6 +352,70 @@
     </figure>
   </section>
 
+  <section id="section-triple-terms">
+    <h3>Triple terms</h3>
+
+    <p>As the basic unit of description in RDF, a triple states a simple,
+    directed relationship between two resources. Sometimes, we need to describe
+    more detailed circumstances underlying such relationships. Conceptually, we
+    can <em>annotate</em> a statement with something more detailed:</p>
+
+    <figure id="fig3">
+      <a href="example-triple-annotation.svg" data-include="example-triple-annotation.svg">
+      </a>
+      <figcaption>Informal triple annotation example: a concretization of a
+      statement described with its own characteristics.</figcaption>
+    </figure>
+
+    <p>In conjunction with the arc expressing the relationship, the purple
+    circle underneath expresses a <a
+    data-cite="RDF12-CONCEPTS#dfn-reifier">reifier</a>. This is Bob's interest,
+    with a type and a date of origin, as a concrete circumstance of the fact
+    that Bob is interested in the Mona Lisa.</p>
+
+    <p>Formally, this annotation is composed of four triples:</p>
+    <pre class="example nohighlight">
+      &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; .
+      &lt;Bob's interest> &lt;is a concretization of> <strong>&lt;&lt;&lpar; <small>&lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;</small> &rpar;&gt;&gt;</strong> .
+      &lt;Bob's interest> &lt;is an> &lt;Interest> .
+      &lt;Bob's interest> &lt;since> &lt;4th of October 1998> .
+    </pre>
+
+    <p>The second triple is called a <a
+    data-cite="RDF12-CONCEPTS#dfn-reifying-triple">reifying triple</a>, and
+    expresses a concretization of the proposition stated by the first triple.
+    The object of a reifying triple is a <a
+    data-cite="RDF12-CONCEPTS#dfn-triple-term">triple term</a>. It denotes the
+    proposition itself, as a logical, abstract object identified through its
+    constituent subject, predicate, and object components.</p>
+
+    <p>Triple terms may only appear in the <strong>object position</strong>,
+    and should be used with the special <em>reifies</em> predicate of reifying
+    triples.</p>
+
+    <aside class="note">
+    Relationships can always be described as resources, following the
+    patterns of <a
+    href="https://patterns.dataincubator.org/book/qualified-relation.html"
+    >qualified relations</a> or <a
+    href="https://patterns.dataincubator.org/book/nary-relation.html"
+    >N-ary relations</a>, but simple, direct statements are sometimes
+    preferred over more complex, granular descriptions. Description
+    authors may need to balance directness and completeness.
+    Reifying triples is a way of bridging this difference. It enables us
+    to describe more concrete circumstances, such as events, relationships or
+    tokens in data sources, <em>in relation to</em> the simple statements.
+    </aside>
+    <aside class="note">
+    Triple terms are used to <em>relate</em> to propositions, not to state
+    them. This means that we can describe statements without implying them.
+    This is useful for describing unknown propositions, such as suggestions
+    or disputed claims.
+    We can also annotate statements with multiple reifiers, to describe
+    different circumstances varying in time, location, etc.
+    </aside>
+  </section>
+
   <section id="section-multiple-graphs">
     <h3>Multiple graphs</h3>
 
@@ -417,13 +482,13 @@
     in the intended way. Possible semantics of datasets are described in a separate note
     [[RDF11-DATASETS]]. </p>
 
-    <figure id="fig3">
+    <figure id="fig4">
       <img class="graph" src="example-multiple-graphs.jpg"
                 alt="Informal graph of the sample dataset">
       <figcaption>Informal graph of the sample dataset</figcaption>
     </figure>
 
-    <p><a href="#fig3">Fig.&nbsp;3</a> depicts the sample dataset.
+    <p><a href="#fig4">Fig.&nbsp;4</a> depicts the sample dataset.
     <a href="#section-trig" class="sectoinRef"></a> provides an example
     of concrete syntax for this dataset.</p>
     </section>
@@ -655,7 +720,7 @@
 
       <p>The figure below shows the triples resulting from the example:</p>
 
-      <figure id="fig4">
+      <figure id="fig5">
         <img style="width: 75%" src="example-graph-iris.jpg"
                   alt="Graph of the sample triples">
         <figcaption>RDF graph resulting from the N-Triples example</figcaption>
@@ -679,7 +744,7 @@
       support for namespace prefixes, lists and shorthands for datatyped
       literals. Turtle provides a trade-off between ease of
       writing, ease of parsing and readability. The graph shown in
-      <a href="#fig4">Fig.&nbsp;4</a> can be
+      <a href="#fig5">Fig.&nbsp;5</a> can be
       represented in Turtle as follows:</p>
 
       <pre class="example" title="Turtle" id="turtle-example">
@@ -768,10 +833,42 @@
         the square brackets are interpreted as triples with the blank node as
         subject. Lines starting with '#' represent
         comments. </p>
-
-        <p>For more details about the syntax of Turtle please consult the Turtle specification [[RDF12-TURTLE]].</p>
       </section>
 
+      <section id="section-turtle-reifier-representation">
+        <h5>Representations of reifying triples</h5>
+
+        <p>Turtle provides a concise notation for reifying and annotating
+        triples. This allows us to encode the example in the section about <a
+        href="#section-triple-terms">triple terms</a>, where the simple fact
+        that Bob is interested in the Mona Lisa was annotated with a more
+        specific circumstance.</p>
+
+        <p>We can use an unnamed annotation to state when the interest itself
+        began:</p>
+        <pre class="example turtle" title="Unnamed annotation"
+             data-include="example-unnamed-annotation.ttl"
+             data-include-format="text">
+        </pre>
+
+        <p>We can also describe that Alice has once made the simple claim. Here
+        we use the syntax of a reifying triple, which references it without
+        implying its truth:</p>
+        <pre class="example turtle" title="Unnamed reifier"
+             data-include="example-unnamed-reifier.ttl"
+             data-include-format="text">
+        </pre>
+
+        <p>The previous two descriptions can also be combined, as two
+        annotations on one statement. Here we also identify the reifiers with
+        IRIs:</p>
+        <pre class="example turtle" title="Named annotations"
+             data-include="example-named-annotations.ttl"
+             data-include-format="text">
+        </pre>
+      </section>
+
+      <p>For more details about the syntax of Turtle, please consult the Turtle specification [[RDF12-TURTLE]].</p>
     </section>
 
     <section id="section-trig">
@@ -837,7 +934,7 @@
 
       <p>The figure below shows the triples resulting from this example.</p>
 
-      <figure id="fig5">
+      <figure id="fig6">
         <img style="width: 75%" src="example-multiple-graphs-iris.jpg"
                   alt="Triples resulting from the TriG example">
         <figcaption>Triples resulting from the TriG example</figcaption>
@@ -865,7 +962,7 @@
       </pre>
 
       <p>The nine lines in the N-Quads example correspond to the nine
-      arcs in <a href="#fig5">Fig.&nbsp;5</a>. Lines 1-7 represent quads, where the first
+      arcs in <a href="#fig6">Fig.&nbsp;6</a>. Lines 1-7 represent quads, where the first
       element constitutes the graph IRI. The part of the quad after the
       graph IRI specifies the
       subject, predicate and object of the statement, following the syntactic
@@ -893,7 +990,7 @@
     <a data-cite="JSON-LD11#named-graphs">@graph</a> keyword.</p>
 
     <p>The following JSON-LD example encodes the graph of <a
-      href="#fig4">Fig.&nbsp;4</a>:</p>
+      href="#fig5">Fig.&nbsp;5</a>:</p>
 
     <pre class="example" title="JSON-LD">
       <span class="linenum">01</span>    {
@@ -993,7 +1090,7 @@
     Snippets</a>). </p>
 
     <p>The HTML example below encodes the
-    RDF graph depicted in <a href="#fig4">Fig.&nbsp;4</a>:</p>
+    RDF graph depicted in <a href="#fig5">Fig.&nbsp;5</a>:</p>
 
     <pre class="example" title="RDFa" id="rdfa-example">
       <span class="linenum">01</span>  &lt;body prefix="foaf: http://xmlns.com/foaf/0.1/
@@ -1091,7 +1188,7 @@
     languages listed here have been adopted and standardized. </p>
 
     <p>The RDF/XML example below encodes the
-    RDF graph depicted in <a href="#fig4">Fig.&nbsp;4</a>:</p>
+    RDF graph depicted in <a href="#fig5">Fig.&nbsp;5</a>:</p>
 
     <pre class="example" title="RDF/XML" id="rdf-xml-example">
       <span class="linenum">01</span>    &lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -1361,7 +1458,7 @@
   <h2>Changes between RDF 1.1 and RDF 1.2</h2>
 
   <ul>
-    
+    <li>Added information about triple terms (new in RDF 1.2).</li>
   </ul>
 </section>
 
