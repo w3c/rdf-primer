@@ -93,7 +93,7 @@
   <p>In particular RDF can be used to publish and interlink data on the Web.
   For example, retrieving <code>http://www.example.org/bob#me</code>
   could provide data about Bob, including the fact that he
-  knows Alice, as identified by her IRI (an IRI is an "International
+  knows Alice, as identified by her IRI (an IRI is an "Internationalized
   Resource Identifier"; see <a href="#section-IRI" class="sectionRef"></a> for details).
   Retrieving Alice's IRI could then provide more data about her, including links
   to other datasets for her friends, interests, etc. A person or
@@ -202,7 +202,7 @@
       &lt;Bob&gt; &lt;is born on&gt; &lt;the 4th of July 1990&gt;.
       &lt;Bob&gt; &lt;is interested in&gt; &lt;the Mona Lisa&gt;.
       &lt;the Mona Lisa&gt; &lt;was created by&gt; &lt;Leonardo da Vinci&gt;.
-      &lt;the video 'La Joconde à Washington'&gt; &lt;is about&gt; &lt;the Mona Lisa&gt;
+      &lt;the video 'La Joconde à Washington'&gt; &lt;is about&gt; &lt;the Mona Lisa&gt;.
     </pre>
 
     <p>The same resource is often referenced in multiple triples. In the example above,
@@ -212,9 +212,9 @@
     makes it possible to find connections between triples, which is an
     important part of RDF's power.</p>
 
-    <p>We can visualize triples as a connected
-    <strong>graph</strong>. Graphs consists
-    of nodes and arcs. The subjects and
+    <p>A set of triples is called a <strong>graph</strong>.
+    We can visualize a set of triples as a connected graph.
+    Graphs consist of nodes and arcs. The subjects and
     objects of the triples make up the nodes in the graph; the
     predicates form the arcs. <a href="#fig1">Fig.&nbsp;1</a>
     shows the graph resulting from the sample triples.</p>
@@ -238,7 +238,8 @@
     terms of this abstract syntax. Concrete RDF syntax is introduced
     later in <a href="#section-graph-syntax" class="sectionRef"></a>.</p>
 
-    <p>In the next four subsections, we discuss the four types of RDF data
+    <p>In the next four subsections, we discuss the four kinds of
+    <a data-cite="RDF12-CONCEPTS#dfn-rdf-term">RDF term</a>
     that occur in triples: IRIs, literals, blank nodes, and triple terms. </p>
 
   </section>
@@ -246,7 +247,7 @@
   <section id="section-IRI">
     <h3>IRIs</h3>
 
-    <p>The abbreviation IRI is short for "International Resource
+    <p>The abbreviation IRI is short for "Internationalized Resource
     Identifier". An <a data-cite="RDF12-CONCEPTS#dfn-iri">IRI</a>
     identifies a resource. The URLs (Uniform Resource Locators) that
     people use as Web addresses are one form of IRI. Other forms of IRI
@@ -532,7 +533,7 @@
     <tbody>
       <tr>
         <th>Construct</th>
-        <th>Syntactic form</th>
+        <th>Syntactic triple form</th>
         <th>Description</th>
       </tr>
       <tr>
@@ -573,7 +574,7 @@
     </tbody>
   </table>
 
-  <p class="note">The syntactic form (second column) is in a prefix
+  <p class="note">The syntactic triple form (second column) is in a prefix
   notation which is discussed in more detail in
   <a href="#section-graph-syntax" class="sectionRef"></a>.
   The fact that the constructs have two different prefixes
@@ -962,8 +963,8 @@
       </pre>
 
       <p>The nine lines in the N-Quads example correspond to the nine
-      arcs in <a href="#fig6">Fig.&nbsp;6</a>. Lines 1-7 represent quads, where the first
-      element constitutes the graph IRI. The part of the quad after the
+      arcs in <a href="#fig6">Fig.&nbsp;6</a>. Lines 1-7 represent quads, where the last
+      element constitutes the graph IRI. The part of the quad before the
       graph IRI specifies the
       subject, predicate and object of the statement, following the syntactic
       conventions of N-Triples. Lines 8 and 9 represent the statements in the unnamed (default)
@@ -1358,7 +1359,7 @@
 
   <ul>
     <li><a href="https://www.wikidata.org/">Wikidata</a>, a free,
-    collaborative and multilingual database and ran by the
+    collaborative, and multilingual database run by the
     <a href="https://www.wikimedia.org/">Wikimedia Foundation</a>.</li>
 
     <li><a href="https://dbpedia.org/">DBpedia</a>, publishing data extracted
