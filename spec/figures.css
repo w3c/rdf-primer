@@ -10,18 +10,27 @@ svg {
   --white: white;
 }
 
+@media (prefers-color-scheme: dark) {
+  svg {
+    --bg: #000;
+    --fg: #fff;
+  }
+}
+
+text, textPath { fill:var(--fg); stroke:none }
+
 .label { font-size:18px; font-weight:bold }
 
 text.iri { font-size:12px; fill:var(--fg); stroke:none }
 
 .green path { stroke:var(--green) }
-.green { fill:var(--green) }
+.green, .green text, .green textPath { fill:var(--green) }
 
 .blue path { stroke:var(--blue) }
-.blue { fill:var(--blue) }
+.blue, .blue text, .blue textPath { fill:var(--blue) }
 
 .purple path { stroke:var(--purple) }
-.purple { fill:var(--purple) }
+.purple, .purple text, .purple textPath { fill:var(--purple) }
 
 .arrow text { font-size: 16px }
 .arrow textPath { text-anchor: middle }
