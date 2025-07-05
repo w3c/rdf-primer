@@ -307,6 +307,32 @@
     be associated with the "fr" language tag and "李奥纳多·达·文西"
     with the "zh" language tag.</p>
 
+    <p>String literals may also optionally be associated with an initial <a>base
+    direction</a>, with a value of either <code>ltr</code> or <code>rtl</code>
+    (for left-to-right and right-to-left, respectively). For example, the English
+    title <q lang="en" dir="ltr">HTML &amp; CSS: Designing and Creating Websites</q>,
+    associated with the <code>en</code> language tag and recognised as written
+    from left to right, would in an Arabic translation be written from right to
+    left, as:
+    <q lang="ar" dir="rtl">HTML و CSS: تصميم و إنشاء مواقع الويب</q>,
+    when associated with the <code>ar</code> language tag and the
+    <code>rtl</code> initial text direction. Such literals are called
+    <a data-cite="RDF12-CONCEPTS#dfn-dir-lang-string">directional language-tagged strings</a>.
+    </p>
+
+    <p class="note">Base direction is used to assist in
+    [=Unicode Bidirectional Algorithm|BIDI=] [[?I18N-Glossary]] processing.
+    Without the initial base direction, the example title above would incorrectly render
+    as:
+    <q lang="ar">HTML و CSS: تصميم و إنشاء مواقع الويب</q>.
+    This is due to the left-to-right directionality of the initial characters
+    in the encoded form, which precede the Arabic letters subsequently
+    recognised as right-to-left by the BIDI algorithm. More examples can be
+    found in the article
+    <a href="https://www.w3.org/International/articles/lang-bidi-use-cases/"
+      >Use cases for bidi and language metadata on the Web</a>.
+    </p>
+
     <!--
     <p class="note">The 2004 version of RDF contained the notion of a
     "plain literal" with no datatype. This feature has been removed, as the
@@ -1459,6 +1485,7 @@
   <h2>Changes between RDF 1.1 and RDF 1.2</h2>
 
   <ul>
+    <li>Added information about directional language-tagged strings (new in RDF 1.2).</li>
     <li>Added information about triple terms (new in RDF 1.2).</li>
   </ul>
 </section>
