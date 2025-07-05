@@ -822,6 +822,22 @@
       The <code>a</code> shorthand is intended to match the human
       intuition about <code>rdf:type</code>. </p>
 
+      <section id="section-turtle-dirlangstring-representation">
+        <h5>Representation of strings with language and direction</h5>
+        <p>The following describes a book with its title in both English and
+        Arabic, using a language-tagged string (line 7) and a directional
+        language-tagged string (line 8):</p>
+        <pre class="example" title="Turtle" id="turtle-example">
+          <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
+          <span class="linenum">02</span>    PREFIX bibo: &lt;http://purl.org/ontology/bibo/&gt;
+          <span class="linenum">03</span>    PREFIX dct:  &lt;http://purl.org/dc/terms/&gt;
+          <span class="linenum">05</span>
+          <span class="linenum">06</span>    &lt;books/html_and_css&gt; a bibo:Book ;
+          <span class="linenum">07</span>        dct:title "HTML &amp; CSS: Designing and Creating Websites"@en ,
+          <span class="linenum">08</span>                  "HTML و CSS: تصميم و إنشاء مواقع الويب"@ar--rtl .
+        </pre>
+      </section>
+
       <section id="section-blank-node-representation">
         <h5>Representation of blank nodes</h5>
 
