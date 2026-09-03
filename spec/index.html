@@ -177,7 +177,7 @@
     The format of these statements is simple. A statement always
     has the following structure:<p>
 
-   <pre>
+   <pre class="nohighlight">
       &lt;subject&gt; &lt;predicate&gt; &lt;object&gt;
     </pre>
 
@@ -202,7 +202,7 @@
 
     <p>Here are examples of RDF triples (informally expressed in pseudocode):</p>
 
-    <pre class="example" title="Sample triples (informal)" id="example1">
+    <pre class="example nohighlight" title="Sample triples (informal)" id="example1">
       &lt;Bob&gt; &lt;is a&gt; &lt;person&gt;.
       &lt;Bob&gt; &lt;is a friend of&gt; &lt;Alice&gt;.
       &lt;Bob&gt; &lt;is born on&gt; &lt;the 4th of July 1990&gt;.
@@ -270,13 +270,13 @@
     For example, the IRI for Leonardo da Vinci in <a
     href="https://dbpedia.org">DBpedia</a> is:</p>
 
-    <pre class="example" title="IRI for Leonardo da Vinci">
+    <pre class="example nohighlight" title="IRI for Leonardo da Vinci">
       <a href="http://dbpedia.org/resource/Leonardo_da_Vinci">http://dbpedia.org/resource/Leonardo_da_Vinci</a>
     </pre>
 
     <p>The IRI for an <a href="https://www.ina.fr">INA</a> video about the Mona Lisa entitled 'La Joconde à Washington' in <a href="https://www.europeana.eu">Europeana</a> is:</p>
 
-    <pre class="example" title="IRI for video about the Mona Lisa">
+    <pre class="example nohighlight" title="IRI for video about the Mona Lisa">
       <a href="http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619">http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619</a>
     </pre>
 
@@ -285,7 +285,7 @@
     used by many people as an RDF property to state an acquaintance
     relationship between people:</p>
 
-    <pre class="example" title="IRI for foaf:knows">
+    <pre class="example nohighlight" title="IRI for foaf:knows">
       <a href="http://xmlns.com/foaf/0.1/knows">http://xmlns.com/foaf/0.1/knows</a>
     </pre>
 
@@ -479,7 +479,7 @@
     graphs. A first graph could be provided by a social networking
     site and identified by <code>http://example.org/bob</code>:</p>
 
-    <pre class="example" title="First graph in the sample dataset">
+    <pre class="example nohighlight" title="First graph in the sample dataset">
       &lt;Bob&gt; &lt;is a&gt; &lt;person&gt;.
       &lt;Bob&gt; &lt;is a friend of&gt; &lt;Alice&gt;.
       &lt;Bob&gt; &lt;is born on&gt; &lt;the 4th of July 1990&gt;.
@@ -494,7 +494,7 @@
     and identified by
     <code>https://www.wikidata.org/wiki/Special:EntityData/Q12418</code>:</p>
 
-    <pre class="example" title="Second graph in the sample dataset">
+    <pre class="example nohighlight" title="Second graph in the sample dataset">
       &lt;Leonardo da Vinci&gt; &lt;is the creator of&gt; &lt;the Mona Lisa&gt;.
       &lt;The video 'La Joconde à Washington'&gt; &lt;is about&gt; &lt;the Mona Lisa&gt;
     </pre>
@@ -504,7 +504,7 @@
     as subject. The triples associate publisher and license information with
     this graph IRI: </p>
 
-    <pre class="example" title="Unnamed graph in the sample dataset">
+    <pre class="example nohighlight" title="Unnamed graph in the sample dataset">
       &lt;http://example.org/bob&gt; &lt;is published by&gt; &lt;http://example.org&gt;.
       &lt;http://example.org/bob&gt; &lt;has license&gt; &lt;http://creativecommons.org/licenses/by/3.0/&gt;.
     </pre>
@@ -625,7 +625,7 @@
   <p>With the help of RDF Schema one can build a model of RDF data. A
   simple informal example:</p>
 
-  <pre class="example" title="RDF Schema triples (informal)" id="rdfs-example">
+  <pre class="example nohighlight" title="RDF Schema triples (informal)" id="rdfs-example">
     &lt;Person&gt; &lt;<strong>type</strong>&gt; &lt;Class&gt;
     &lt;is a friend of&gt; &lt;<strong>type</strong>&gt; &lt;Property&gt;
     &lt;is a friend of&gt; &lt;<strong>domain</strong>&gt; &lt;Person&gt;
