@@ -37,7 +37,12 @@
       github: "https://github.com/w3c/rdf-primer/",
       group:           "rdf-star",
       doJsonLd:     true,
-      wgPublicList: "public-rdf-star-wg"
+      wgPublicList: "public-rdf-star-wg",
+
+      preProcess: [
+        highlightLoader("trig", "https://w3c.github.io/rdf-common/highlightjs-rdflang/src/trig.js", "hljsDefineTrig"),
+        highlightLoader("sparql", "https://w3c.github.io/rdf-common/highlightjs-rdflang/src/sparql.js", "hljsDefineSparql")
+      ]
     };
   </script>
   <style>
@@ -172,7 +177,7 @@
     The format of these statements is simple. A statement always
     has the following structure:<p>
 
-   <pre>
+   <pre class="nohighlight" title="Triple structure">
       &lt;subject&gt; &lt;predicate&gt; &lt;object&gt;
     </pre>
 
@@ -197,7 +202,7 @@
 
     <p>Here are examples of RDF triples (informally expressed in pseudocode):</p>
 
-    <pre class="example" title="Sample triples (informal)" id="example1">
+    <pre class="example nohighlight" title="Sample triples (informal)" id="example-triples">
       &lt;Bob&gt; &lt;is a&gt; &lt;person&gt;.
       &lt;Bob&gt; &lt;is a friend of&gt; &lt;Alice&gt;.
       &lt;Bob&gt; &lt;is born on&gt; &lt;the 4th of July 1990&gt;.
@@ -265,13 +270,13 @@
     For example, the IRI for Leonardo da Vinci in <a
     href="https://dbpedia.org">DBpedia</a> is:</p>
 
-    <pre class="example" title="IRI for Leonardo da Vinci">
+    <pre class="example nohighlight" title="IRI for Leonardo da Vinci">
       <a href="http://dbpedia.org/resource/Leonardo_da_Vinci">http://dbpedia.org/resource/Leonardo_da_Vinci</a>
     </pre>
 
     <p>The IRI for an <a href="https://www.ina.fr">INA</a> video about the Mona Lisa entitled 'La Joconde à Washington' in <a href="https://www.europeana.eu">Europeana</a> is:</p>
 
-    <pre class="example" title="IRI for video about the Mona Lisa">
+    <pre class="example nohighlight" title="IRI for video about the Mona Lisa">
       <a href="http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619">http://data.europeana.eu/item/04802/243FA8618938F4117025F17A8B813C5F9AA4D619</a>
     </pre>
 
@@ -280,7 +285,7 @@
     used by many people as an RDF property to state an acquaintance
     relationship between people:</p>
 
-    <pre class="example" title="IRI for foaf:knows">
+    <pre class="example nohighlight" title="IRI for foaf:knows">
       <a href="http://xmlns.com/foaf/0.1/knows">http://xmlns.com/foaf/0.1/knows</a>
     </pre>
 
@@ -410,11 +415,11 @@
     that Bob is interested in the Mona Lisa.</p>
 
     <p>Formally, this annotation is composed of four triples:</p>
-    <pre class="example nohighlight">
-      &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt; .
-      &lt;Bob's interest> &lt;is a concretization of> <strong>&lt;&lt;&lpar; <small>&lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;</small> &rpar;&gt;&gt;</strong> .
-      &lt;Bob's interest> &lt;is an> &lt;Interest> .
-      &lt;Bob's interest> &lt;since> &lt;4th of October 1998> .
+    <pre class="example nohighlight" title="A triple term in use">
+      &lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;.
+      &lt;Bob's interest> &lt;is a concretization of> <strong>&lt;&lt;&lpar; <small>&lt;Bob&gt; &lt;is interested in> &lt;the Mona Lisa&gt;</small> &rpar;&gt;&gt;</strong>.
+      &lt;Bob's interest> &lt;is an> &lt;Interest>.
+      &lt;Bob's interest> &lt;since> &lt;4th of October 1998>.
     </pre>
 
     <p>The second triple is called a <a
@@ -469,12 +474,12 @@
     at most one unnamed ("default") graph. </p>
 
     <p>For example, the
-    statements in <a href="#example1">Example&nbsp;1</a>
+    statements in [[[#example-triples]]]
     could be grouped in two named
     graphs. A first graph could be provided by a social networking
     site and identified by <code>http://example.org/bob</code>:</p>
 
-    <pre class="example" title="First graph in the sample dataset">
+    <pre class="example nohighlight" title="First graph in the sample dataset">
       &lt;Bob&gt; &lt;is a&gt; &lt;person&gt;.
       &lt;Bob&gt; &lt;is a friend of&gt; &lt;Alice&gt;.
       &lt;Bob&gt; &lt;is born on&gt; &lt;the 4th of July 1990&gt;.
@@ -489,9 +494,9 @@
     and identified by
     <code>https://www.wikidata.org/wiki/Special:EntityData/Q12418</code>:</p>
 
-    <pre class="example" title="Second graph in the sample dataset">
+    <pre class="example nohighlight" title="Second graph in the sample dataset">
       &lt;Leonardo da Vinci&gt; &lt;is the creator of&gt; &lt;the Mona Lisa&gt;.
-      &lt;The video 'La Joconde à Washington'&gt; &lt;is about&gt; &lt;the Mona Lisa&gt;
+      &lt;The video 'La Joconde à Washington'&gt; &lt;is about&gt; &lt;the Mona Lisa&gt;.
     </pre>
 
     <p>Below is an example of an unnamed graph. It contains two triples that
@@ -499,7 +504,7 @@
     as subject. The triples associate publisher and license information with
     this graph IRI: </p>
 
-    <pre class="example" title="Unnamed graph in the sample dataset">
+    <pre class="example nohighlight" title="Unnamed graph in the sample dataset">
       &lt;http://example.org/bob&gt; &lt;is published by&gt; &lt;http://example.org&gt;.
       &lt;http://example.org/bob&gt; &lt;has license&gt; &lt;http://creativecommons.org/licenses/by/3.0/&gt;.
     </pre>
@@ -620,17 +625,17 @@
   <p>With the help of RDF Schema one can build a model of RDF data. A
   simple informal example:</p>
 
-  <pre class="example" title="RDF Schema triples (informal)" id="rdfs-example">
-    &lt;Person&gt; &lt;<strong>type</strong>&gt; &lt;Class&gt;
-    &lt;is a friend of&gt; &lt;<strong>type</strong>&gt; &lt;Property&gt;
-    &lt;is a friend of&gt; &lt;<strong>domain</strong>&gt; &lt;Person&gt;
-    &lt;is a friend of&gt; &lt;<strong>range</strong>&gt; &lt;Person&gt;
-    &lt;is a good friend of&gt; &lt;<strong>subPropertyOf</strong>&gt; &lt;is a friend of&gt;
+  <pre class="example nohighlight" title="RDF Schema triples (informal)" id="rdfs-example">
+    &lt;Person&gt; &lt;<strong>type</strong>&gt; &lt;Class&gt;.
+    &lt;is a friend of&gt; &lt;<strong>type</strong>&gt; &lt;Property&gt;.
+    &lt;is a friend of&gt; &lt;<strong>domain</strong>&gt; &lt;Person&gt;.
+    &lt;is a friend of&gt; &lt;<strong>range</strong>&gt; &lt;Person&gt;.
+    &lt;is a good friend of&gt; &lt;<strong>subPropertyOf</strong>&gt; &lt;is a friend of&gt;.
   </pre>
 
   <p>Note that, while <code>&lt;is a friend of&gt;</code> is a
   property typically used as the predicate of a triple (as it was in
-  <a href="#example1">Example&nbsp;1</a>), properties like this are themselves resources that can be
+  [[[#example-triples]]]), properties like this are themselves resources that can be
   described by triples or provide values in the descriptions of other
   resources. In this example, <code>&lt;is a friend of&gt;</code> is the subject of triples
   that assign type, domain, and range values to it, and it is the object of
@@ -723,7 +728,7 @@
       href="#fig1">Fig.&nbsp;1</a> can be represented in N-Triples in the
       following way:</p>
 
-      <pre class="example" title="N-Triples" id="n-triples-example">
+      <pre class="example ntriples" title="N-Triples" id="n-triples-example">
         <span class="linenum">01</span>    &lt;http://example.org/bob#me&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Person&gt; .
         <span class="linenum">02</span>    &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .
         <span class="linenum">03</span>    &lt;http://example.org/bob#me&gt; &lt;http://schema.org/birthDate&gt; "1990-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; .
@@ -783,7 +788,7 @@
       <a href="#fig5">Fig.&nbsp;5</a> can be
       represented in Turtle as follows:</p>
 
-      <pre class="example" title="Turtle" id="turtle-example">
+      <pre class="example turtle" title="Turtle" id="turtle-example">
         <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
         <span class="linenum">02</span>    PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
         <span class="linenum">03</span>    PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
@@ -836,7 +841,7 @@
         <p>The following describes a book with its title in both English and
         Arabic, using a language-tagged string (line 7) and a directional
         language-tagged string (line 8):</p>
-        <pre class="example" title="Turtle" id="turtle-dirlangstring-example">
+        <pre class="example turtle" title="Tagged strings for language and direction" id="turtle-dirlangstring-example">
           <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
           <span class="linenum">02</span>    PREFIX bibo: &lt;http://purl.org/ontology/bibo/&gt;
           <span class="linenum">03</span>    PREFIX dct:  &lt;http://purl.org/dc/terms/&gt;
@@ -853,7 +858,7 @@
         <p>Below we see two syntactic variants for writing down blank nodes, using the
           earlier cypress tree example.</p>
 
-        <pre class="example" title="Blank node">
+        <pre class="example turtle" title="Blank node">
           PREFIX lio: &lt;http://purl.org/net/lio#&gt;
 
           &lt;http://dbpedia.org/resource/Mona_Lisa&gt; lio:shows _:x .
@@ -869,7 +874,7 @@
         <p>Turtle also has an alternative notation for blank nodes, which
         does not require the use of syntax like <code>_:x</code>: </p>
 
-        <pre class="example" title="Blank nodes (alternative notation)">
+        <pre class="example turtle" title="Blank nodes (alternative notation)">
           @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
           @prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
 
@@ -938,7 +943,7 @@
       <p>The <a href="#section-multiple-graphs">multiple-graphs version of our example</a>
       can be specified in TriG as follows:</p>
 
-      <pre class="example" title="TriG" id="trig-example">
+      <pre class="example trig" title="TriG" id="trig-example">
         <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
         <span class="linenum">02</span>    PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
         <span class="linenum">03</span>    PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
@@ -1001,7 +1006,7 @@
       the graph IRI of the triple described on that line.  Here is the
       N-Quads version of the TriG example above:</p>
 
-      <pre class="example" title="N-Quads" id="n-quads-example">
+      <pre class="example nquads" title="N-Quads" id="n-quads-example">
         <span class="linenum">01</span>    &lt;http://example.org/bob#me&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Person&gt; &lt;http://example.org/bob&gt; .
         <span class="linenum">02</span>    &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; &lt;http://example.org/bob&gt; .
         <span class="linenum">03</span>    &lt;http://example.org/bob#me&gt; &lt;http://schema.org/birthDate&gt; "1990-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; &lt;http://example.org/bob&gt; .
@@ -1196,8 +1201,8 @@
     interpreted here as the object of the triple. Thus, the RDF statement
     that results from line 6 is:<p>
 
-    <pre>
-      <code>&lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .</code>
+    <pre class="ntriples">
+      &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .
     </pre>
 
     <p>In line 7 we see a triple with as object a literal value. The
@@ -1281,8 +1286,8 @@
     using the <code>rdf:resource</code> attribute (lines 8, 10-11, 15 and
     18). For example, line 10 corresponds to the triple:</p>
 
-    <pre>
-      <code>&lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .</code>
+    <pre class="ntriples">
+      &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .
     </pre>
 
     <p>When the object of the
@@ -1349,22 +1354,22 @@
   techniques to implement efficiently. </p>
 
   <p>As a sample entailment, consider the following two statements:</p>
-  <pre>
-    <code>ex:bob foaf:knows ex:alice .</code>
-    <code>foaf:knows rdfs:domain foaf:Person .</code>
+  <pre class="turtle">
+    ex:bob foaf:knows ex:alice .
+    foaf:knows rdfs:domain foaf:Person .
   </pre>
   <p>The RDF Semantics document tell us that from this graph it is legal to
   derive the following triple:</p>
-  <pre>
-    <code>ex:bob rdf:type foaf:Person .</code>
+  <pre class="turtle">
+    ex:bob rdf:type foaf:Person .
   </pre>
 
   <p>The derivation above is an example of an RDF Schema entailment [[RDF12-SEMANTICS]]. </p>
 
   <p>The semantics of RDF also tell us that the triple:</p>
 
- <pre>
-   <code>ex:bob ex:age "forty"^^xsd:integer . </code>
+ <pre class="turtle">
+   ex:bob ex:age "forty"^^xsd:integer .
  </pre>
 
   <p>leads to a logical inconsistency, because the literal does not
@@ -1382,9 +1387,9 @@
   between the world of "classes" and of "instances". Therefore, RDF
   semantics views the following graph as valid:</p>
 
-  <pre>
-    <code>ex:Jumbo rdf:type ex:Elephant .</code>
-    <code>ex:Elephant rdf:type ex:Species .</code>
+  <pre class="turtle">
+    ex:Jumbo rdf:type ex:Elephant .
+    ex:Elephant rdf:type ex:Species .
   </pre>
 
    <p>So, an elephant can both be a class (with Jumbo as a sample
@@ -1443,7 +1448,7 @@
   Vinci. With the help of <code>owl:sameAs</code> we can record this
   information:</p>
 
-  <pre class="example" title="Link between datasets">
+  <pre class="example turtle" title="Link between datasets">
   &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt;
       owl:sameAs &lt;http://viaf.org/viaf/24604287/&gt; .
   </pre>
