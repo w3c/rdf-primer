@@ -37,7 +37,12 @@
       github: "https://github.com/w3c/rdf-primer/",
       group:           "rdf-star",
       doJsonLd:     true,
-      wgPublicList: "public-rdf-star-wg"
+      wgPublicList: "public-rdf-star-wg",
+
+      preProcess: [
+        highlightLoader("trig", "https://w3c.github.io/rdf-common/highlightjs-rdflang/src/trig.js", "hljsDefineTrig"),
+        highlightLoader("sparql", "https://w3c.github.io/rdf-common/highlightjs-rdflang/src/sparql.js", "hljsDefineSparql")
+      ]
     };
   </script>
   <style>
@@ -723,7 +728,7 @@
       href="#fig1">Fig.&nbsp;1</a> can be represented in N-Triples in the
       following way:</p>
 
-      <pre class="example" title="N-Triples" id="n-triples-example">
+      <pre class="example ntriples" title="N-Triples" id="n-triples-example">
         <span class="linenum">01</span>    &lt;http://example.org/bob#me&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Person&gt; .
         <span class="linenum">02</span>    &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .
         <span class="linenum">03</span>    &lt;http://example.org/bob#me&gt; &lt;http://schema.org/birthDate&gt; "1990-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; .
@@ -783,7 +788,7 @@
       <a href="#fig5">Fig.&nbsp;5</a> can be
       represented in Turtle as follows:</p>
 
-      <pre class="example" title="Turtle" id="turtle-example">
+      <pre class="example turtle" title="Turtle" id="turtle-example">
         <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
         <span class="linenum">02</span>    PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
         <span class="linenum">03</span>    PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
@@ -836,7 +841,7 @@
         <p>The following describes a book with its title in both English and
         Arabic, using a language-tagged string (line 7) and a directional
         language-tagged string (line 8):</p>
-        <pre class="example" title="Turtle" id="turtle-dirlangstring-example">
+        <pre class="example turtle" title="Turtle" id="turtle-dirlangstring-example">
           <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
           <span class="linenum">02</span>    PREFIX bibo: &lt;http://purl.org/ontology/bibo/&gt;
           <span class="linenum">03</span>    PREFIX dct:  &lt;http://purl.org/dc/terms/&gt;
@@ -853,7 +858,7 @@
         <p>Below we see two syntactic variants for writing down blank nodes, using the
           earlier cypress tree example.</p>
 
-        <pre class="example" title="Blank node">
+        <pre class="example turtle" title="Blank node">
           PREFIX lio: &lt;http://purl.org/net/lio#&gt;
 
           &lt;http://dbpedia.org/resource/Mona_Lisa&gt; lio:shows _:x .
@@ -869,7 +874,7 @@
         <p>Turtle also has an alternative notation for blank nodes, which
         does not require the use of syntax like <code>_:x</code>: </p>
 
-        <pre class="example" title="Blank nodes (alternative notation)">
+        <pre class="example turtle" title="Blank nodes (alternative notation)">
           @prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
           @prefix dcterms: &lt;http://purl.org/dc/terms/&gt; .
 
@@ -938,7 +943,7 @@
       <p>The <a href="#section-multiple-graphs">multiple-graphs version of our example</a>
       can be specified in TriG as follows:</p>
 
-      <pre class="example" title="TriG" id="trig-example">
+      <pre class="example trig" title="TriG" id="trig-example">
         <span class="linenum">01</span>    BASE   &lt;http://example.org/&gt;
         <span class="linenum">02</span>    PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
         <span class="linenum">03</span>    PREFIX xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt;
@@ -1001,7 +1006,7 @@
       the graph IRI of the triple described on that line.  Here is the
       N-Quads version of the TriG example above:</p>
 
-      <pre class="example" title="N-Quads" id="n-quads-example">
+      <pre class="example nquads" title="N-Quads" id="n-quads-example">
         <span class="linenum">01</span>    &lt;http://example.org/bob#me&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Person&gt; &lt;http://example.org/bob&gt; .
         <span class="linenum">02</span>    &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; &lt;http://example.org/bob&gt; .
         <span class="linenum">03</span>    &lt;http://example.org/bob#me&gt; &lt;http://schema.org/birthDate&gt; "1990-07-04"^^&lt;http://www.w3.org/2001/XMLSchema#date&gt; &lt;http://example.org/bob&gt; .
@@ -1443,7 +1448,7 @@
   Vinci. With the help of <code>owl:sameAs</code> we can record this
   information:</p>
 
-  <pre class="example" title="Link between datasets">
+  <pre class="example turtle" title="Link between datasets">
   &lt;http://dbpedia.org/resource/Leonardo_da_Vinci&gt;
       owl:sameAs &lt;http://viaf.org/viaf/24604287/&gt; .
   </pre>
