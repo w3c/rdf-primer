@@ -1201,8 +1201,8 @@
     interpreted here as the object of the triple. Thus, the RDF statement
     that results from line 6 is:<p>
 
-    <pre>
-      <code>&lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .</code>
+    <pre class="ntriples">
+      &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .
     </pre>
 
     <p>In line 7 we see a triple with as object a literal value. The
@@ -1286,8 +1286,8 @@
     using the <code>rdf:resource</code> attribute (lines 8, 10-11, 15 and
     18). For example, line 10 corresponds to the triple:</p>
 
-    <pre>
-      <code>&lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .</code>
+    <pre class="ntriples">
+      &lt;http://example.org/bob#me&gt; &lt;http://xmlns.com/foaf/0.1/knows&gt; &lt;http://example.org/alice#me&gt; .
     </pre>
 
     <p>When the object of the
@@ -1354,22 +1354,22 @@
   techniques to implement efficiently. </p>
 
   <p>As a sample entailment, consider the following two statements:</p>
-  <pre>
-    <code>ex:bob foaf:knows ex:alice .</code>
-    <code>foaf:knows rdfs:domain foaf:Person .</code>
+  <pre class="turtle">
+    ex:bob foaf:knows ex:alice .
+    foaf:knows rdfs:domain foaf:Person .
   </pre>
   <p>The RDF Semantics document tell us that from this graph it is legal to
   derive the following triple:</p>
-  <pre>
-    <code>ex:bob rdf:type foaf:Person .</code>
+  <pre class="turtle">
+    ex:bob rdf:type foaf:Person .
   </pre>
 
   <p>The derivation above is an example of an RDF Schema entailment [[RDF12-SEMANTICS]]. </p>
 
   <p>The semantics of RDF also tell us that the triple:</p>
 
- <pre>
-   <code>ex:bob ex:age "forty"^^xsd:integer . </code>
+ <pre class="turtle">
+   ex:bob ex:age "forty"^^xsd:integer .
  </pre>
 
   <p>leads to a logical inconsistency, because the literal does not
@@ -1387,9 +1387,9 @@
   between the world of "classes" and of "instances". Therefore, RDF
   semantics views the following graph as valid:</p>
 
-  <pre>
-    <code>ex:Jumbo rdf:type ex:Elephant .</code>
-    <code>ex:Elephant rdf:type ex:Species .</code>
+  <pre class="turtle">
+    ex:Jumbo rdf:type ex:Elephant .
+    ex:Elephant rdf:type ex:Species .
   </pre>
 
    <p>So, an elephant can both be a class (with Jumbo as a sample
