@@ -202,7 +202,7 @@
 
     <p>Here are examples of RDF triples (informally expressed in pseudocode):</p>
 
-    <pre class="example nohighlight" title="Sample triples (informal)" id="example1">
+    <pre class="example nohighlight" title="Sample triples (informal)" id="example-triples">
       &lt;Bob&gt; &lt;is a&gt; &lt;person&gt;.
       &lt;Bob&gt; &lt;is a friend of&gt; &lt;Alice&gt;.
       &lt;Bob&gt; &lt;is born on&gt; &lt;the 4th of July 1990&gt;.
@@ -474,7 +474,7 @@
     at most one unnamed ("default") graph. </p>
 
     <p>For example, the
-    statements in <a href="#example1">Example&nbsp;1</a>
+    statements in [[[#example-triples]]]
     could be grouped in two named
     graphs. A first graph could be provided by a social networking
     site and identified by <code>http://example.org/bob</code>:</p>
@@ -635,7 +635,7 @@
 
   <p>Note that, while <code>&lt;is a friend of&gt;</code> is a
   property typically used as the predicate of a triple (as it was in
-  <a href="#example1">Example&nbsp;1</a>), properties like this are themselves resources that can be
+  [[[#example-triples]]]), properties like this are themselves resources that can be
   described by triples or provide values in the descriptions of other
   resources. In this example, <code>&lt;is a friend of&gt;</code> is the subject of triples
   that assign type, domain, and range values to it, and it is the object of
